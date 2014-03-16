@@ -57,21 +57,15 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+            int progress = values[0];
+            int newHeight = values[1];
 
-            final int progress = values[0];
-            final int newHeight = values[1];
+            loading.setText(String.valueOf(progress) + "%");
+            loading.setHeight(newHeight);
+            if (progress == 100) {
+                loading.setVisibility(View.INVISIBLE);
+            }
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    loading.setText(String.valueOf(progress) + "%");
-                    loading.setHeight(newHeight);
-
-                    if (progress == 100) {
-                        loading.setVisibility(View.INVISIBLE);
-                    }
-                }
-            });
         }
     }
 }
