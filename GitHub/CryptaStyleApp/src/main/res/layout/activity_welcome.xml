@@ -1,6 +1,25 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:background="@color/background">
 
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/nacked" />
+
+    <TextView
+        android:id="@+id/loading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:background="@color/background"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="bottom|center"
+        android:textColor="#655253"
+        android:textSize="30sp" />
+
+</FrameLayout>
