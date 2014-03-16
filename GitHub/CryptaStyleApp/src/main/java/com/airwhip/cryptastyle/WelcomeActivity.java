@@ -4,14 +4,20 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.airwhip.cryptastyle.anim.Fade;
 
 
 public class WelcomeActivity extends Activity {
 
     private TextView loading;
     private ImageView avatar;
+    private ImageButton imageButton;
+    private TextView startText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,25 +26,48 @@ public class WelcomeActivity extends Activity {
 
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        imageButton = (ImageButton) findViewById(R.id.startButton);
+        startText = (TextView) findViewById(R.id.startText);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation fade = new Fade(imageButton, 0f);
+                fade.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
 
-        new ImageLoader().execute();
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        new ImageLoader().execute();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+
+                startText.startAnimation(new Fade(startText, 0f));
+                imageButton.startAnimation(fade);
+            }
+        });
     }
 
     private class ImageLoader extends AsyncTask<Void, Integer, Void> {
+
+        private int height;
+
         @Override
         protected Void doInBackground(Void... params) {
             while (loading.getHeight() == 0) ;
 
-            int height = loading.getHeight() + avatar.getHeight();
+            height = loading.getHeight() + avatar.getHeight();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loading.setHeight(loading.getHeight() + avatar.getHeight());
+                    loading.setHeight(height);
+                    avatar.setAlpha(1f);
                 }
             });
 

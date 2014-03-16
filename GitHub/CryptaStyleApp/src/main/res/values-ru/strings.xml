@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="start">СТАРТ</string>
+
+    <!--Types of people-->
+    <string-array name="types">
+        <item>Гик</item>
+        <item>Домохозяйка</item>
+        <item>Модница</item>
+        <item>Студент</item>
+        <item>Ребенок</item>
+        <item>Путешественник</item>
+        <item>Анимешник</item>
+        <item>Меломан</item>
+        <item>Сталин</item>
+        <item>Кошатница</item>
+        <item>Собачница</item>
+        <item>НЛО</item>
+    </string-array>
+
+</resources>

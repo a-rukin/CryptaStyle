@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
-        android:src="@drawable/nacked" />
+        android:alpha="0"
+        android:src="@drawable/naked" />
 
     <TextView
         android:id="@+id/loading"
@@ -19,7 +20,25 @@
         android:background="@color/background"
         android:fontFamily="sans-serif-condensed"
         android:gravity="bottom|center"
-        android:textColor="#655253"
+        android:textColor="@color/title"
         android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/startText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/start"
+        android:textColor="@color/title"
+        android:textSize="80sp" />
+
+    <ImageButton
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:src="@drawable/start_button" />
 
 </FrameLayout>

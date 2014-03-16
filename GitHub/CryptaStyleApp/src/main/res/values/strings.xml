@@ -3,4 +3,22 @@
 
     <string name="app_name">CryptaStyle</string>
 
+    <string name="start">START</string>
+
+    <!--Types of people-->
+    <string-array name="types">
+        <item>Geek</item>
+        <item>Housewife</item>
+        <item>Trendy</item>
+        <item>Student</item>
+        <item>Child</item>
+        <item>Traveler</item>
+        <item>Anime addicted</item>
+        <item>Мusic lover</item>
+        <item>Stalin</item>
+        <item>Cat lady</item>
+        <item>Dog lover</item>
+        <item>UFO</item>
+    </string-array>
+
 </resources>
