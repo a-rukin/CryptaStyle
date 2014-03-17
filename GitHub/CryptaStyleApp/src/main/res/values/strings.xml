@@ -4,6 +4,8 @@
     <string name="app_name">CryptaStyle</string>
 
     <string name="start">START</string>
+    <string name="no_internet">NO INTERNET</string>
+    <string name="check_internet">Check your internet connection\nand touch button again</string>
 
     <!--Types of people-->
     <string-array name="types">

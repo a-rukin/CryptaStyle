@@ -41,4 +41,37 @@
         android:background="@null"
         android:src="@drawable/start_button" />
 
+    <ImageView
+        android:id="@+id/noConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:alpha="0"
+        android:src="@drawable/no_connection" />
+
+    <TextView
+        android:id="@+id/noInternetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="55dp"
+        android:alpha="0"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/no_internet"
+        android:textColor="@color/title"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/checkInternetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="100dp"
+        android:alpha="0"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="@string/check_internet"
+        android:textColor="@color/title"
+        android:textSize="20sp" />
+
 </FrameLayout>
