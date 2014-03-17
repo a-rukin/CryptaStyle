@@ -28,8 +28,6 @@ public class WelcomeActivity extends Activity {
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
 
-        BrowserInformation.getHistory(this);
-
         imageButton = (ImageButton) findViewById(R.id.startButton);
         startText = (TextView) findViewById(R.id.startText);
         imageButton.setOnClickListener(new View.OnClickListener() {
