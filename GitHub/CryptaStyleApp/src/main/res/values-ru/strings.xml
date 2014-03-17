@@ -2,6 +2,8 @@
 <resources>
 
     <string name="start">СТАРТ</string>
+    <string name="no_internet">НЕТ ИНТЕРНЕТА</string>
+    <string name="check_internet">Проверьте ваше интернет соединение\nи коснитесь кнопки снова</string>
 
     <!--Types of people-->
     <string-array name="types">
