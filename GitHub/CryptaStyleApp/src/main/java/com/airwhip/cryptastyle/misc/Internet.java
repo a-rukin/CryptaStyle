@@ -10,11 +10,11 @@ import android.net.NetworkInfo;
 public class Internet {
     private static Internet ourInstance = new Internet();
 
-    public static Internet getInstance() {
-        return ourInstance;
+    private Internet() {
     }
 
-    private Internet() {
+    public static Internet getInstance() {
+        return ourInstance;
     }
 
     public static boolean checkInternetConnection(Context context) {

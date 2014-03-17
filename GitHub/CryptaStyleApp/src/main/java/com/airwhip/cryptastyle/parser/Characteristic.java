@@ -1,5 +1,9 @@
 package com.airwhip.cryptastyle.parser;
 
+import android.util.Log;
+
+import com.airwhip.cryptastyle.misc.Constants;
+
 /**
  * Created by Whiplash on 17.03.14.
  */
@@ -21,6 +25,15 @@ public class Characteristic {
 
     public void add(int position, long value) {
         weight[position] += value;
+    }
+
+    public void addAll(long[] values) {
+        if (values.length != 11) {
+            Log.e(Constants.ERROR_TAG, "INCORRECT ARRAY SIZE");
+        }
+        for (int i = 0; i < values.length; i++) {
+            weight[i] += values[i];
+        }
     }
 
     public boolean isUFO() {
