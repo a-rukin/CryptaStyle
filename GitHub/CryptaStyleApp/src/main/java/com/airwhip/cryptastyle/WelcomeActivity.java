@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airwhip.cryptastyle.anim.Fade;
+import com.airwhip.cryptastyle.anim.Move;
 import com.airwhip.cryptastyle.misc.Internet;
 
 
@@ -18,8 +19,11 @@ public class WelcomeActivity extends Activity {
     private TextView loading;
     private ImageView avatar;
 
-    private ImageButton imageButton;
+    private ImageButton startButton;
     private TextView startText;
+
+    private ImageView plugImage;
+    private ImageView socketImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,32 +33,26 @@ public class WelcomeActivity extends Activity {
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
 
-        imageButton = (ImageButton) findViewById(R.id.startButton);
+        startButton = (ImageButton) findViewById(R.id.startButton);
         startText = (TextView) findViewById(R.id.startText);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation fadeOut = new Fade(startText, 0f);
+        plugImage = (ImageView) findViewById(R.id.plugImage);
+        socketImage = (ImageView) findViewById(R.id.socketImage);
 
-                if (Internet.checkInternetConnection(getApplicationContext())) {
-                    fadeOut.setAnimationListener(new StartButtonAnimation(false));
-                    imageButton.startAnimation(new Fade(startText, 0f));
-                    startText.startAnimation(fadeOut);
-                } else {
-                    fadeOut.setAnimationListener(new StartButtonAnimation(true));
-                    startText.startAnimation(fadeOut);
-                }
-            }
-        });
+        startButton.setOnClickListener(new StartButtonClick(ProgramState.START));
+    }
+
+    private enum ProgramState {
+        START,
+        NO_INTERNET
     }
 
     private class StartButtonAnimation implements Animation.AnimationListener {
 
-        private boolean isConnectionFailed;
+        private ProgramState state;
 
-        public StartButtonAnimation(boolean isConnectionFailed) {
-            this.isConnectionFailed = isConnectionFailed;
+        public StartButtonAnimation(ProgramState state) {
+            this.state = state;
         }
 
         @Override
@@ -63,18 +61,61 @@ public class WelcomeActivity extends Activity {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            if (isConnectionFailed) {
-                findViewById(R.id.noConnection).setAlpha(1f);
-                findViewById(R.id.noInternetText).setAlpha(1f);
-                findViewById(R.id.checkInternetText).setAlpha(1f);
-                imageButton.setOnClickListener(null);
-            } else {
-                new ImageLoader().execute();
+            switch (state) {
+                case START:
+                    new ImageLoader().execute();
+                    break;
+                case NO_INTERNET:
+                    plugImage.setAlpha(1f);
+                    socketImage.setAlpha(1f);
+                    findViewById(R.id.noInternetText).setAlpha(1f);
+                    findViewById(R.id.checkInternetText).setAlpha(1f);
+                    startButton.setOnClickListener(new StartButtonClick(ProgramState.NO_INTERNET));
+                    break;
             }
         }
 
         @Override
         public void onAnimationRepeat(Animation animation) {
+        }
+    }
+
+    private class StartButtonClick implements View.OnClickListener {
+
+        private ProgramState state;
+
+        public StartButtonClick(ProgramState state) {
+            this.state = state;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Animation fadeOut = new Fade(startText, 0f);
+            switch (state) {
+                case START:
+                    if (Internet.checkInternetConnection(getApplicationContext())) {
+                        fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.START));
+                        startButton.startAnimation(new Fade(startText, 0f));
+                        startText.startAnimation(fadeOut);
+                    } else {
+                        fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.NO_INTERNET));
+                        startText.startAnimation(fadeOut);
+                    }
+                    break;
+                case NO_INTERNET:
+                    if (!Internet.checkInternetConnection(getApplicationContext())) {
+                        plugImage.startAnimation(new Move(-18, 18, false));
+                        socketImage.startAnimation(new Move(18, -18, false));
+                    } else {
+                        plugImage.startAnimation(new Fade(plugImage, 0f));
+                        socketImage.startAnimation(new Fade(socketImage, 0f));
+                        findViewById(R.id.noInternetText).startAnimation(new Fade(findViewById(R.id.noInternetText), 0f));
+                        findViewById(R.id.checkInternetText).startAnimation(new Fade(findViewById(R.id.checkInternetText), 0f));
+                        fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.START));
+                        startButton.startAnimation(fadeOut);
+                    }
+            }
+
         }
     }
 
