@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.airwhip.cryptastyle.anim.Fade;
 import com.airwhip.cryptastyle.anim.Move;
+import com.airwhip.cryptastyle.getters.AccountInformation;
 import com.airwhip.cryptastyle.misc.Internet;
+import com.airwhip.cryptastyle.parser.AccountParser;
 
 
 public class WelcomeActivity extends Activity {
@@ -29,6 +31,8 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        AccountParser ap = new AccountParser(this, AccountInformation.get(this));
 
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
