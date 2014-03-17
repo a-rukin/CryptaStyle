@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airwhip.cryptastyle.anim.Fade;
+import com.airwhip.cryptastyle.getters.BrowserInformation;
 
 
 public class WelcomeActivity extends Activity {
@@ -26,6 +27,8 @@ public class WelcomeActivity extends Activity {
 
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
+
+        BrowserInformation.getHistory(this);
 
         imageButton = (ImageButton) findViewById(R.id.startButton);
         startText = (TextView) findViewById(R.id.startText);
