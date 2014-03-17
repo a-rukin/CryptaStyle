@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Browser;
+import android.util.Log;
 
 /**
  * Created by Whiplash on 07.03.14.
