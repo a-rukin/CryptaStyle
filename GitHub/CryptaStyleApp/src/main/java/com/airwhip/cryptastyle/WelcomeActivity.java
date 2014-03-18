@@ -134,6 +134,8 @@ public class WelcomeActivity extends Activity {
         private int height;
         private int curProgress = 0;
 
+        private boolean canContinue = true;
+
         @Override
         protected Void doInBackground(Void... params) {
             while (loading.getHeight() == 0) ;
@@ -150,47 +152,39 @@ public class WelcomeActivity extends Activity {
             });
 
             Characteristic characteristic = new Characteristic();
+
             publishProgress(0, countHeight(0));
             InformationParser parser = new InformationParser(getApplicationContext(), AccountInformation.get(getApplicationContext()), InformationParser.ParserType.ACCOUNT);
             characteristic.addAll(parser.getAllWeight());
             publishProgress(20, countHeight(20));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             parser = new InformationParser(getApplicationContext(), ApplicationInformation.get(getApplicationContext()), InformationParser.ParserType.APPLICATION);
             characteristic.addAll(parser.getAllWeight());
+            while (!canContinue) ;
             publishProgress(40, countHeight(40));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             parser = new InformationParser(getApplicationContext(), BrowserInformation.getHistory(getApplicationContext()), InformationParser.ParserType.HISTORY);
             characteristic.addAll(parser.getAllWeight());
+            while (!canContinue) ;
             publishProgress(60, countHeight(60));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             parser = new InformationParser(getApplicationContext(), BrowserInformation.getBookmarks(getApplicationContext()), InformationParser.ParserType.BOOKMARKS);
             characteristic.addAll(parser.getAllWeight());
+            while (!canContinue) ;
             publishProgress(80, countHeight(80));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             parser = new InformationParser(getApplicationContext(), MusicInformation.get(getApplicationContext()), InformationParser.ParserType.MUSIC);
             characteristic.addAll(parser.getAllWeight());
+            while (!canContinue) ;
             publishProgress(100, countHeight(100));
 
+            //TODO determine who is who
             long[] test = characteristic.get();
             for (int i = 0; i < test.length; i++) {
                 Log.d(Constants.DEBUG_TAG, String.valueOf(test[i]));
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    avatar.setImageResource(R.drawable.geek);
+                }
+            });
 
             return null;
         }
@@ -202,6 +196,7 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+            canContinue = false;
             final int progress = values[0];
             final int deltaHeight = values[1];
             curProgress = progress;
@@ -222,6 +217,7 @@ public class WelcomeActivity extends Activity {
                     loadingAnimation.setVisibility(View.INVISIBLE);
                     loading.setVisibility(View.VISIBLE);
                     loadingAnimation.setY(loading.getY());
+                    canContinue = true;
                 }
 
                 @Override
