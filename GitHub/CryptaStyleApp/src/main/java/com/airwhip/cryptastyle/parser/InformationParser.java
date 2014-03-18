@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
 
+import com.airwhip.cryptastyle.R;
 import com.airwhip.cryptastyle.misc.Constants;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,20 +14,35 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
  * Created by Whiplash on 17.03.14.
  */
-public class AccountParser {
+public class InformationParser {
 
+    private static final int[] xmls = {
+            R.xml.geek,
+            R.xml.housewife,
+            R.xml.trendy,
+            R.xml.student,
+            R.xml.child,
+            R.xml.traveler,
+            R.xml.anime_addicted,
+            R.xml.music_lover,
+            R.xml.stalin,
+            R.xml.cat_lady,
+            R.xml.dog_lover};
+    private static final String TYPE_TAG = "type";
+    private static final String WEIGHT_ARRAY_TAG = "weight-array";
+    private static final String ITEM_TAG = "item";
     private Context context;
+    private ParserType type;
+    private List<String> storage = new ArrayList<>();
 
-    private HashSet<String> accountStorage = new HashSet<>();
-
-    public AccountParser(Context context, StringBuilder xml) {
+    public InformationParser(Context context, StringBuilder xml, ParserType type) {
         this.context = context;
+        this.type = type;
 
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -45,8 +61,8 @@ public class AccountParser {
                         currentTag = "";
                         break;
                     case XmlPullParser.TEXT:
-                        if (currentTag.equals("type")) {
-                            accountStorage.add(xpp.getText().toLowerCase());
+                        if (currentTag.equals(TYPE_TAG)) {
+                            storage.add(xpp.getText().toLowerCase());
                         }
                         break;
                 }
@@ -56,13 +72,22 @@ public class AccountParser {
             Log.e(Constants.ERROR_TAG, e.getMessage());
         }
 
-        for (String str : accountStorage) {
-            Log.d(Constants.DEBUG_TAG, str);
+//        for (String str : storage) {
+//            Log.d(Constants.DEBUG_TAG, str);
+//        }
+    }
+
+    public long[] getAllWeight() {
+        long[] result = new long[xmls.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = getWeight(xmls[i]);
         }
+        return result;
     }
 
     public long getWeight(int xml) {
         long resultWeight = 0;
+        boolean[] isUsed = new boolean[storage.size()];
         try {
             XmlResourceParser xrp = context.getResources().getXml(xml);
 
@@ -76,21 +101,21 @@ public class AccountParser {
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
                         currentTag = xrp.getName();
-                        if (currentTag.equals("account")) {
+                        if (currentTag.equals(type.toString())) {
                             isCorrectTag = true;
                         }
-                        if (isCorrectTag && xrp.getName().equals("weight-array")) {
+                        if (isCorrectTag && xrp.getName().equals(WEIGHT_ARRAY_TAG)) {
                             currentWeight = xrp.getAttributeIntValue(0, 0);
                         }
                         break;
                     case XmlPullParser.TEXT:
-                        if (isCorrectTag && currentTag.equals("item")) {
-                            resultWeight += numberOfEntries(xrp.getText()) * currentWeight;
+                        if (isCorrectTag && currentTag.equals(ITEM_TAG)) {
+                            resultWeight += numberOfEntries(xrp.getText(), isUsed) * currentWeight;
                         }
                         break;
                     case XmlPullParser.END_TAG:
                         currentTag = "";
-                        if (isCorrectTag && xrp.getName().equals("account")) {
+                        if (isCorrectTag && xrp.getName().equals(type.toString())) {
                             isCorrectTag = false;
                         }
                         break;
@@ -104,19 +129,40 @@ public class AccountParser {
         return resultWeight;
     }
 
-    private int numberOfEntries(String str) {
+    private int numberOfEntries(String str, boolean[] isUsed) {
         str = str.toLowerCase();
-        List<String> removeList = new ArrayList<>();
-        for (String s : accountStorage) {
-            if (s.contains(str)) {
-                removeList.add(s);
+        int result = 0;
+        for (int i = 0; i < storage.size(); i++) {
+            if (!isUsed[i] && storage.get(i).contains(str)) {
+                isUsed[i] = true;
+                result++;
             }
         }
-        int result = removeList.size();
-        for (String s : removeList) {
-            accountStorage.remove(s);
-        }
         return result;
+    }
+
+    public enum ParserType {
+        ACCOUNT, APPLICATION,
+        HISTORY, BOOKMARKS,
+        MUSIC;
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case ACCOUNT:
+                    return "account";
+                case APPLICATION:
+                    return "application";
+                case HISTORY:
+                    return "history";
+                case BOOKMARKS:
+                    return "bookmarks";
+                case MUSIC:
+                    return "music";
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
     }
 
 }
