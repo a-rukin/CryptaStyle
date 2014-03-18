@@ -15,7 +15,7 @@ import com.airwhip.cryptastyle.anim.Move;
 import com.airwhip.cryptastyle.getters.AccountInformation;
 import com.airwhip.cryptastyle.misc.Constants;
 import com.airwhip.cryptastyle.misc.Internet;
-import com.airwhip.cryptastyle.parser.AccountParser;
+import com.airwhip.cryptastyle.parser.InformationParser;
 
 
 public class WelcomeActivity extends Activity {
@@ -34,8 +34,11 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        AccountParser ap = new AccountParser(this, AccountInformation.get(this));
-        Log.d(Constants.DEBUG_TAG, String.valueOf(ap.getWeight(Constants.xmls[0])));
+        InformationParser ap = new InformationParser(this, AccountInformation.get(this), InformationParser.ParserType.ACCOUNT);
+        long[] test = ap.getAllWeight();
+        for (Long l : test) {
+            Log.d(Constants.DEBUG_TAG, String.valueOf(l));
+        }
 
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
