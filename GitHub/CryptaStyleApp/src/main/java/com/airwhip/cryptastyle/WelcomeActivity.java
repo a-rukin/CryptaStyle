@@ -73,6 +73,7 @@ public class WelcomeActivity extends Activity {
         public void onAnimationEnd(Animation animation) {
             switch (state) {
                 case START:
+                    startButton.setOnClickListener(null);
                     new ImageLoader().execute();
                     break;
                 case NO_INTERNET:
