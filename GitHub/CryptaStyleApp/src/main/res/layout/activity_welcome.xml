@@ -13,6 +13,17 @@
         android:src="@drawable/naked" />
 
     <TextView
+        android:id="@+id/loadingAnimation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:background="@color/background"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="bottom|center"
+        android:textColor="@color/title"
+        android:textSize="30sp" />
+
+    <TextView
         android:id="@+id/loading"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

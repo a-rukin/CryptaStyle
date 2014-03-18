@@ -7,19 +7,16 @@
 
     <application>
         <weight-array id="100">
-            <item>github</item>
         </weight-array>
     </application>
 
     <history>
         <weight-array id="100">
-            <item>github</item>
         </weight-array>
     </history>
 
     <bookmarks>
         <weight-array id="100">
-            <item>github</item>
         </weight-array>
     </bookmarks>
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.airwhip.cryptastyle.misc.XmlHalper;
+
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class ApplicationInformation {
         final PackageManager pm = context.getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo packageInfo : packages) {
-            result.append(NAME_TAG_BEGIN + packageInfo.packageName + NAME_TAG_END);
+            result.append(NAME_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(packageInfo.packageName) + NAME_TAG_END);
         }
 
         return result.append(MAIN_TAG_END);

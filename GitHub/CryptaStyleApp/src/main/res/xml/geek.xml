@@ -3,28 +3,25 @@
 <account>
     <weight-array id="100">
         <item>github</item>
-        <item>vkontakte</item>
     </weight-array>
-    <weight-array id="50">
+    <weight-array id="20">
         <item>google</item>
     </weight-array>
 </account>
 
 <application>
     <weight-array id="100">
-        <item>github</item>
     </weight-array>
 </application>
 
 <history>
-    <weight-array id="100">
+    <weight-array id="20">
         <item>github</item>
     </weight-array>
 </history>
 
 <bookmarks>
     <weight-array id="100">
-        <item>github</item>
     </weight-array>
 </bookmarks>
 

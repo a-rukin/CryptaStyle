@@ -21,14 +21,14 @@ public class Characteristic {
         9 - Cat lady
         10 - Dog lover
         Extra - UFO */
-    private long[] weight = new long[11];
+    private long[] weight = new long[Constants.xmls.length];
 
     public void add(int position, long value) {
         weight[position] += value;
     }
 
     public void addAll(long[] values) {
-        if (values.length != 11) {
+        if (values.length != weight.length) {
             Log.e(Constants.ERROR_TAG, "INCORRECT ARRAY SIZE");
         }
         for (int i = 0; i < values.length; i++) {
@@ -41,8 +41,11 @@ public class Characteristic {
         return true;
     }
 
-    public double[] get() {
-        // TODO get result
-        return new double[0];
+    public long[] get() {
+        long[] clone = new long[weight.length];
+        for (int i = 0; i < weight.length; i++) {
+            clone[i] = weight[i];
+        }
+        return clone;
     }
 }
