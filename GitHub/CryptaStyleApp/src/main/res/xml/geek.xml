@@ -3,6 +3,10 @@
 <account>
     <weight-array id="100">
         <item>github</item>
+        <item>vkontakte</item>
+    </weight-array>
+    <weight-array id="50">
+        <item>google</item>
     </weight-array>
 </account>
 

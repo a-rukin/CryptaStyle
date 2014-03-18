@@ -3,6 +3,7 @@ package com.airwhip.cryptastyle;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageButton;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.airwhip.cryptastyle.anim.Fade;
 import com.airwhip.cryptastyle.anim.Move;
 import com.airwhip.cryptastyle.getters.AccountInformation;
+import com.airwhip.cryptastyle.misc.Constants;
 import com.airwhip.cryptastyle.misc.Internet;
 import com.airwhip.cryptastyle.parser.AccountParser;
 
@@ -33,6 +35,7 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
         AccountParser ap = new AccountParser(this, AccountInformation.get(this));
+        Log.d(Constants.DEBUG_TAG, String.valueOf(ap.getWeight(Constants.xmls[0])));
 
         loading = (TextView) findViewById(R.id.loading);
         avatar = (ImageView) findViewById(R.id.avatar);
