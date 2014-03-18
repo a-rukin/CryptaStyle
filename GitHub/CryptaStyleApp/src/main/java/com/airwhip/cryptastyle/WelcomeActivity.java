@@ -13,14 +13,19 @@ import android.widget.TextView;
 import com.airwhip.cryptastyle.anim.Fade;
 import com.airwhip.cryptastyle.anim.Move;
 import com.airwhip.cryptastyle.getters.AccountInformation;
+import com.airwhip.cryptastyle.getters.ApplicationInformation;
+import com.airwhip.cryptastyle.getters.BrowserInformation;
+import com.airwhip.cryptastyle.getters.MusicInformation;
 import com.airwhip.cryptastyle.misc.Constants;
 import com.airwhip.cryptastyle.misc.Internet;
+import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
 
 
 public class WelcomeActivity extends Activity {
 
     private TextView loading;
+    private TextView loadingAnimation;
     private ImageView avatar;
 
     private ImageButton startButton;
@@ -34,13 +39,8 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        InformationParser ap = new InformationParser(this, AccountInformation.get(this), InformationParser.ParserType.ACCOUNT);
-        long[] test = ap.getAllWeight();
-        for (Long l : test) {
-            Log.d(Constants.DEBUG_TAG, String.valueOf(l));
-        }
-
         loading = (TextView) findViewById(R.id.loading);
+        loadingAnimation = (TextView) findViewById(R.id.loadingAnimation);
         avatar = (ImageView) findViewById(R.id.avatar);
 
         startButton = (ImageButton) findViewById(R.id.startButton);
@@ -132,6 +132,7 @@ public class WelcomeActivity extends Activity {
     private class ImageLoader extends AsyncTask<Void, Integer, Void> {
 
         private int height;
+        private int curProgress = 0;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -142,32 +143,95 @@ public class WelcomeActivity extends Activity {
                 @Override
                 public void run() {
                     loading.setHeight(height);
+                    loadingAnimation.setHeight(height);
+                    loadingAnimation.setVisibility(View.INVISIBLE);
                     avatar.setAlpha(1f);
                 }
             });
 
-            for (int i = 0; i <= 100; i++) {
-                publishProgress(i, height - (int) (avatar.getHeight() / 100. * i));
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            Characteristic characteristic = new Characteristic();
+            publishProgress(0, countHeight(0));
+            InformationParser parser = new InformationParser(getApplicationContext(), AccountInformation.get(getApplicationContext()), InformationParser.ParserType.ACCOUNT);
+            characteristic.addAll(parser.getAllWeight());
+            publishProgress(20, countHeight(20));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            parser = new InformationParser(getApplicationContext(), ApplicationInformation.get(getApplicationContext()), InformationParser.ParserType.APPLICATION);
+            characteristic.addAll(parser.getAllWeight());
+            publishProgress(40, countHeight(40));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            parser = new InformationParser(getApplicationContext(), BrowserInformation.getHistory(getApplicationContext()), InformationParser.ParserType.HISTORY);
+            characteristic.addAll(parser.getAllWeight());
+            publishProgress(60, countHeight(60));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            parser = new InformationParser(getApplicationContext(), BrowserInformation.getBookmarks(getApplicationContext()), InformationParser.ParserType.BOOKMARKS);
+            characteristic.addAll(parser.getAllWeight());
+            publishProgress(80, countHeight(80));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            parser = new InformationParser(getApplicationContext(), MusicInformation.get(getApplicationContext()), InformationParser.ParserType.MUSIC);
+            characteristic.addAll(parser.getAllWeight());
+            publishProgress(100, countHeight(100));
+
+            long[] test = characteristic.get();
+            for (int i = 0; i < test.length; i++) {
+                Log.d(Constants.DEBUG_TAG, String.valueOf(test[i]));
             }
 
             return null;
         }
 
+        private int countHeight(int i) {
+            return (int) (avatar.getHeight() / 100. * (i - curProgress));
+        }
+
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            int progress = values[0];
-            int newHeight = values[1];
+            final int progress = values[0];
+            final int deltaHeight = values[1];
+            curProgress = progress;
 
             loading.setText(String.valueOf(progress) + "%");
-            loading.setHeight(newHeight);
+            loadingAnimation.setText(String.valueOf(progress) + "%");
+            Animation move = new Move(0, -deltaHeight, true);
+            move.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    loadingAnimation.setVisibility(View.VISIBLE);
+                    loading.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    loading.setY(loading.getY() - deltaHeight);
+                    loadingAnimation.setVisibility(View.INVISIBLE);
+                    loading.setVisibility(View.VISIBLE);
+                    loadingAnimation.setY(loading.getY());
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            loadingAnimation.startAnimation(move);
             if (progress == 100) {
                 loading.setVisibility(View.INVISIBLE);
+                loadingAnimation.setVisibility(View.INVISIBLE);
             }
 
         }

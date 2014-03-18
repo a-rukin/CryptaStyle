@@ -4,7 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Browser;
-import android.util.Log;
+
+import com.airwhip.cryptastyle.misc.XmlHalper;
 
 /**
  * Created by Whiplash on 07.03.14.
@@ -58,13 +59,14 @@ public class BrowserInformation {
         if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
             while (!cursor.isAfterLast()) {
                 result.append(ITEM_TAG_BEGIN);
-                result.append(TITLE_TAG_BEGIN + cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.TITLE)) + TITLE_TAG_END);
-                result.append(URL_TAG_BEGIN + cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL)) + URL_TAG_END);
+                result.append(TITLE_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.TITLE))) + TITLE_TAG_END);
+                result.append(URL_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL))) + URL_TAG_END);
                 result.append(ITEM_TAG_END);
                 cursor.moveToNext();
             }
             cursor.close();
         }
+
         return result;
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
 
-import com.airwhip.cryptastyle.R;
 import com.airwhip.cryptastyle.misc.Constants;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -21,19 +20,6 @@ import java.util.List;
  */
 public class InformationParser {
 
-    private static final int[] xmls = {
-            R.xml.geek,
-            R.xml.housewife,
-            R.xml.trendy,
-            R.xml.student,
-            R.xml.child,
-            R.xml.traveler,
-            R.xml.anime_addicted,
-            R.xml.music_lover,
-            R.xml.stalin,
-            R.xml.cat_lady,
-            R.xml.dog_lover};
-    private static final String TYPE_TAG = "type";
     private static final String WEIGHT_ARRAY_TAG = "weight-array";
     private static final String ITEM_TAG = "item";
     private Context context;
@@ -51,25 +37,35 @@ public class InformationParser {
 
             xpp.setInput(new StringReader(xml.toString()));
             int eventType = xpp.getEventType();
-            String currentTag = "";
+
+            boolean isCorrectTag = false;
+            StringBuilder text = new StringBuilder();
+
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
-                        currentTag = xpp.getName();
+                        if (xpp.getName().equals(ITEM_TAG)) {
+                            isCorrectTag = true;
+                            text = new StringBuilder();
+                        }
                         break;
                     case XmlPullParser.END_TAG:
-                        currentTag = "";
+                        if (xpp.getName().equals(ITEM_TAG)) {
+                            isCorrectTag = false;
+                            storage.add(text.toString());
+                        }
                         break;
                     case XmlPullParser.TEXT:
-                        if (currentTag.equals(TYPE_TAG)) {
-                            storage.add(xpp.getText().toLowerCase());
+                        if (isCorrectTag) {
+                            text.append(xpp.getText().toLowerCase());
                         }
                         break;
                 }
                 eventType = xpp.next();
             }
         } catch (XmlPullParserException | IOException e) {
-            Log.e(Constants.ERROR_TAG, e.getMessage());
+            e.printStackTrace();
+            Log.e(Constants.ERROR_TAG, e.getMessage() + " " + type.toString());
         }
 
 //        for (String str : storage) {
@@ -78,9 +74,9 @@ public class InformationParser {
     }
 
     public long[] getAllWeight() {
-        long[] result = new long[xmls.length];
+        long[] result = new long[Constants.xmls.length];
         for (int i = 0; i < result.length; i++) {
-            result[i] = getWeight(xmls[i]);
+            result[i] = getWeight(Constants.xmls[i]);
         }
         return result;
     }
@@ -124,7 +120,7 @@ public class InformationParser {
             }
 
         } catch (XmlPullParserException | IOException | NullPointerException e) {
-            Log.e(Constants.ERROR_TAG, e.getMessage());
+            Log.e(Constants.ERROR_TAG, e.getMessage() + " " + type.toString());
         }
         return resultWeight;
     }
