@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airwhip.cryptastyle.anim.Fade;
 import com.airwhip.cryptastyle.anim.Move;
+import com.airwhip.cryptastyle.anim.Spin;
 import com.airwhip.cryptastyle.getters.AccountInformation;
 import com.airwhip.cryptastyle.getters.ApplicationInformation;
 import com.airwhip.cryptastyle.getters.BrowserInformation;
@@ -24,11 +27,10 @@ import com.airwhip.cryptastyle.parser.InformationParser;
 
 public class WelcomeActivity extends Activity {
 
-    private TextView loading;
-    private TextView loadingAnimation;
-    private ImageView avatar;
+    private FrameLayout startLayout;
+    private LinearLayout resultLayout;
 
-    private ImageButton startButton;
+    private ImageButton circle;
     private TextView startText;
 
     private ImageView plugImage;
@@ -39,17 +41,16 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        loading = (TextView) findViewById(R.id.loading);
-        loadingAnimation = (TextView) findViewById(R.id.loadingAnimation);
-        avatar = (ImageView) findViewById(R.id.avatar);
+        startLayout = (FrameLayout) findViewById(R.id.startLayout);
+        resultLayout = (LinearLayout) findViewById(R.id.resultLayout);
 
-        startButton = (ImageButton) findViewById(R.id.startButton);
+        circle = (ImageButton) findViewById(R.id.circle);
         startText = (TextView) findViewById(R.id.startText);
 
         plugImage = (ImageView) findViewById(R.id.plugImage);
         socketImage = (ImageView) findViewById(R.id.socketImage);
 
-        startButton.setOnClickListener(new StartButtonClick(ProgramState.START));
+        circle.setOnClickListener(new StartButtonClick(ProgramState.START));
     }
 
     private enum ProgramState {
@@ -73,15 +74,15 @@ public class WelcomeActivity extends Activity {
         public void onAnimationEnd(Animation animation) {
             switch (state) {
                 case START:
-                    startButton.setOnClickListener(null);
+                    circle.setOnClickListener(null);
                     new ImageLoader().execute();
                     break;
                 case NO_INTERNET:
                     plugImage.setAlpha(1f);
                     socketImage.setAlpha(1f);
                     findViewById(R.id.noInternetText).setAlpha(1f);
-                    findViewById(R.id.checkInternetText).setAlpha(1f);
-                    startButton.setOnClickListener(new StartButtonClick(ProgramState.NO_INTERNET));
+                    findViewById(R.id.tipText).setAlpha(1f);
+                    circle.setOnClickListener(new StartButtonClick(ProgramState.NO_INTERNET));
                     break;
             }
         }
@@ -106,7 +107,6 @@ public class WelcomeActivity extends Activity {
                 case START:
                     if (Internet.checkInternetConnection(getApplicationContext())) {
                         fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.START));
-                        startButton.startAnimation(new Fade(startText, 0f));
                         startText.startAnimation(fadeOut);
                     } else {
                         fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.NO_INTERNET));
@@ -121,9 +121,9 @@ public class WelcomeActivity extends Activity {
                         plugImage.startAnimation(new Fade(plugImage, 0f));
                         socketImage.startAnimation(new Fade(socketImage, 0f));
                         findViewById(R.id.noInternetText).startAnimation(new Fade(findViewById(R.id.noInternetText), 0f));
-                        findViewById(R.id.checkInternetText).startAnimation(new Fade(findViewById(R.id.checkInternetText), 0f));
+                        findViewById(R.id.tipText).startAnimation(new Fade(findViewById(R.id.tipText), 0f));
                         fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.START));
-                        startButton.startAnimation(fadeOut);
+                        circle.startAnimation(fadeOut);
                     }
             }
 
@@ -132,105 +132,69 @@ public class WelcomeActivity extends Activity {
 
     private class ImageLoader extends AsyncTask<Void, Integer, Void> {
 
-        private int height;
-        private int curProgress = 0;
-
-        private boolean canContinue = true;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            circle.setImageResource(R.drawable.loading_circle);
+            circle.startAnimation(new Spin());
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
-            while (loading.getHeight() == 0) ;
-
-            height = loading.getHeight() + avatar.getHeight();
+            publishProgress(0);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loading.setHeight(height);
-                    loadingAnimation.setHeight(height);
-                    loadingAnimation.setVisibility(View.INVISIBLE);
-                    avatar.setAlpha(1f);
+                    Animation fadeIn = new Fade(startText, 1);
+                    fadeIn.setDuration(200);
+                    startText.startAnimation(fadeIn);
                 }
             });
 
             Characteristic characteristic = new Characteristic();
 
-            publishProgress(0, countHeight(0));
             InformationParser parser = new InformationParser(getApplicationContext(), AccountInformation.get(getApplicationContext()), InformationParser.ParserType.ACCOUNT);
             characteristic.addAll(parser.getAllWeight());
-            publishProgress(20, countHeight(20));
+            publishProgress(20);
             parser = new InformationParser(getApplicationContext(), ApplicationInformation.get(getApplicationContext()), InformationParser.ParserType.APPLICATION);
             characteristic.addAll(parser.getAllWeight());
-            while (!canContinue) ;
-            publishProgress(40, countHeight(40));
+            publishProgress(40);
             parser = new InformationParser(getApplicationContext(), BrowserInformation.getHistory(getApplicationContext()), InformationParser.ParserType.HISTORY);
             characteristic.addAll(parser.getAllWeight());
-            while (!canContinue) ;
-            publishProgress(60, countHeight(60));
+            publishProgress(60);
             parser = new InformationParser(getApplicationContext(), BrowserInformation.getBookmarks(getApplicationContext()), InformationParser.ParserType.BOOKMARKS);
             characteristic.addAll(parser.getAllWeight());
-            while (!canContinue) ;
-            publishProgress(80, countHeight(80));
+            publishProgress(80);
             parser = new InformationParser(getApplicationContext(), MusicInformation.get(getApplicationContext()), InformationParser.ParserType.MUSIC);
             characteristic.addAll(parser.getAllWeight());
-            while (!canContinue) ;
-            publishProgress(100, countHeight(100));
+            publishProgress(100);
 
             //TODO determine who is who
             long[] test = characteristic.get();
             for (int i = 0; i < test.length; i++) {
                 Log.d(Constants.DEBUG_TAG, String.valueOf(test[i]));
             }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    avatar.setImageResource(R.drawable.geek);
-                }
-            });
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
 
-        private int countHeight(int i) {
-            return (int) (avatar.getHeight() / 100. * (i - curProgress));
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            canContinue = false;
             final int progress = values[0];
-            final int deltaHeight = values[1];
-            curProgress = progress;
 
-            loading.setText(String.valueOf(progress) + "%");
-            loadingAnimation.setText(String.valueOf(progress) + "%");
-            Animation move = new Move(0, -deltaHeight, true);
-            move.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    loadingAnimation.setVisibility(View.VISIBLE);
-                    loading.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    loading.setY(loading.getY() - deltaHeight);
-                    loadingAnimation.setVisibility(View.INVISIBLE);
-                    loading.setVisibility(View.VISIBLE);
-                    loadingAnimation.setY(loading.getY());
-                    canContinue = true;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-            loadingAnimation.startAnimation(move);
-            if (progress == 100) {
-                loading.setVisibility(View.INVISIBLE);
-                loadingAnimation.setVisibility(View.INVISIBLE);
-            }
-
+            startText.setText(String.valueOf(progress) + "%");
         }
     }
 }
