@@ -22,12 +22,6 @@ public class Constants {
             R.xml.cat_lady,
             R.xml.dog_lover};
 
-    private static Constants ourInstance = new Constants();
-
     private Constants() {
-    }
-
-    public static Constants getInstance() {
-        return ourInstance;
     }
 }
