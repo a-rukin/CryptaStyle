@@ -70,19 +70,25 @@
             android:textSize="20sp" />
     </FrameLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/resultLayout"
+    <ScrollView
+        android:id="@+id/resultView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:alpha="0"
-        android:background="@color/background"
-        android:orientation="vertical">
+        android:alpha="0">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button" />
-    </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/background"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

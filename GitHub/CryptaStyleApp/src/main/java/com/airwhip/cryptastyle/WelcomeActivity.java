@@ -9,7 +9,7 @@ import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.airwhip.cryptastyle.anim.Fade;
@@ -28,7 +28,7 @@ import com.airwhip.cryptastyle.parser.InformationParser;
 public class WelcomeActivity extends Activity {
 
     private FrameLayout startLayout;
-    private LinearLayout resultLayout;
+    private ScrollView resultView;
 
     private ImageButton circle;
     private TextView startText;
@@ -42,7 +42,7 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
         startLayout = (FrameLayout) findViewById(R.id.startLayout);
-        resultLayout = (LinearLayout) findViewById(R.id.resultLayout);
+        resultView = (ScrollView) findViewById(R.id.resultView);
 
         circle = (ImageButton) findViewById(R.id.circle);
         startText = (TextView) findViewById(R.id.startText);
@@ -187,6 +187,8 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            resultView.setAlpha(1);
+            startLayout.setVisibility(View.GONE);
         }
 
         @Override
