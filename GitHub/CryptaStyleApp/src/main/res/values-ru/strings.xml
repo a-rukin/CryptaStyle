@@ -4,6 +4,7 @@
     <string name="start">СТАРТ</string>
     <string name="no_internet">НЕТ ИНТЕРНЕТА</string>
     <string name="check_internet">Проверьте ваше интернет соединение\nи коснитесь кнопки снова</string>
+    <string name="click_start">Коснитесь кнопки чтобы начать</string>
 
     <!--Types of people-->
     <string-array name="types">

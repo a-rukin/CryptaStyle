@@ -32,6 +32,7 @@ public class WelcomeActivity extends Activity {
 
     private ImageButton circle;
     private TextView startText;
+    private TextView tipText;
 
     private ImageView plugImage;
     private ImageView socketImage;
@@ -46,6 +47,7 @@ public class WelcomeActivity extends Activity {
 
         circle = (ImageButton) findViewById(R.id.circle);
         startText = (TextView) findViewById(R.id.startText);
+        tipText = (TextView) findViewById(R.id.tipText);
 
         plugImage = (ImageView) findViewById(R.id.plugImage);
         socketImage = (ImageView) findViewById(R.id.socketImage);
@@ -81,7 +83,8 @@ public class WelcomeActivity extends Activity {
                     plugImage.setAlpha(1f);
                     socketImage.setAlpha(1f);
                     findViewById(R.id.noInternetText).setAlpha(1f);
-                    findViewById(R.id.tipText).setAlpha(1f);
+                    tipText.setText(getString(R.string.check_internet));
+                    tipText.setAlpha(1f);
                     circle.setOnClickListener(new StartButtonClick(ProgramState.NO_INTERNET));
                     break;
             }
@@ -112,6 +115,7 @@ public class WelcomeActivity extends Activity {
                         fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.NO_INTERNET));
                         startText.startAnimation(fadeOut);
                     }
+                    tipText.setAlpha(0);
                     break;
                 case NO_INTERNET:
                     if (!Internet.checkInternetConnection(getApplicationContext())) {
@@ -121,7 +125,7 @@ public class WelcomeActivity extends Activity {
                         plugImage.startAnimation(new Fade(plugImage, 0f));
                         socketImage.startAnimation(new Fade(socketImage, 0f));
                         findViewById(R.id.noInternetText).startAnimation(new Fade(findViewById(R.id.noInternetText), 0f));
-                        findViewById(R.id.tipText).startAnimation(new Fade(findViewById(R.id.tipText), 0f));
+                        tipText.startAnimation(new Fade(tipText, 0f));
                         fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.START));
                         circle.startAnimation(fadeOut);
                     }
