@@ -1,96 +1,88 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
-
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:alpha="0"
-        android:src="@drawable/naked" />
-
-    <TextView
-        android:id="@+id/loadingAnimation"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/startLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:background="@color/background"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="bottom|center"
-        android:textColor="@color/title"
-        android:textSize="30sp" />
+        android:layout_height="fill_parent"
+        android:background="@color/background">
 
-    <TextView
-        android:id="@+id/loading"
+        <TextView
+            android:id="@+id/startText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/start"
+            android:textColor="@color/title"
+            android:textSize="80sp" />
+
+        <ImageButton
+            android:id="@+id/circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:src="@drawable/start_button" />
+
+        <ImageView
+            android:id="@+id/plugImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:src="@drawable/plug" />
+
+        <ImageView
+            android:id="@+id/socketImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:src="@drawable/socket" />
+
+        <TextView
+            android:id="@+id/noInternetText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="55dp"
+            android:alpha="0"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/no_internet"
+            android:textColor="@color/title"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/tipText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="100dp"
+            android:alpha="0"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:text="@string/check_internet"
+            android:textColor="@color/title"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/resultLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
+        android:layout_height="fill_parent"
+        android:alpha="0"
         android:background="@color/background"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="bottom|center"
-        android:textColor="@color/title"
-        android:textSize="30sp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/startText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/start"
-        android:textColor="@color/title"
-        android:textSize="80sp" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button" />
+    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@null"
-        android:src="@drawable/start_button" />
-
-    <ImageView
-        android:id="@+id/plugImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:alpha="0"
-        android:src="@drawable/plug" />
-
-    <ImageView
-        android:id="@+id/socketImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:alpha="0"
-        android:src="@drawable/socket" />
-
-    <TextView
-        android:id="@+id/noInternetText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="55dp"
-        android:alpha="0"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/no_internet"
-        android:textColor="@color/title"
-        android:textSize="50sp" />
-
-    <TextView
-        android:id="@+id/checkInternetText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="100dp"
-        android:alpha="0"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="center"
-        android:text="@string/check_internet"
-        android:textColor="@color/title"
-        android:textSize="20sp" />
-
-</FrameLayout>
+</LinearLayout>
