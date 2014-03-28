@@ -3,7 +3,6 @@ package com.airwhip.cryptastyle;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
@@ -36,6 +35,8 @@ public class WelcomeActivity extends Activity {
 
     private ImageView plugImage;
     private ImageView socketImage;
+
+    private Characteristic characteristic = new Characteristic();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +156,6 @@ public class WelcomeActivity extends Activity {
                 }
             });
 
-            Characteristic characteristic = new Characteristic();
-
             InformationParser parser = new InformationParser(getApplicationContext(), AccountInformation.get(getApplicationContext()), InformationParser.ParserType.ACCOUNT);
             characteristic.addAll(parser.getAllWeight());
             publishProgress(20);
@@ -173,12 +172,6 @@ public class WelcomeActivity extends Activity {
             characteristic.addAll(parser.getAllWeight());
             publishProgress(100);
 
-            //TODO determine who is who
-            long[] test = characteristic.get();
-            for (int i = 0; i < test.length; i++) {
-                Log.d(Constants.DEBUG_TAG, String.valueOf(test[i]));
-            }
-
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -191,8 +184,20 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            fillResult();
             resultView.setAlpha(1);
             startLayout.setVisibility(View.GONE);
+        }
+
+        private void fillResult() {
+            int max = 0;
+            for (int i = 0; i < characteristic.size(); i++) {
+                if (characteristic.get(i) > characteristic.get(max)) {
+                    max = i;
+                }
+            }
+            ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[max].toUpperCase());
+            ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[max]);
         }
 
         @Override

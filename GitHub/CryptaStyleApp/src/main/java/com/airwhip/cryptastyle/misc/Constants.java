@@ -22,6 +22,19 @@ public class Constants {
             R.xml.cat_lady,
             R.xml.dog_lover};
 
+    public static final int[] imgs = {
+            R.drawable.geek,
+            R.drawable.housewife,
+            R.drawable.trendy,
+            R.drawable.student,
+            R.drawable.child,
+            R.drawable.traveler,
+            R.drawable.anime_addicted,
+            R.drawable.music_lover,
+            R.drawable.stalin,
+            R.drawable.cat_lady,
+            R.drawable.dog_lover};
+
     private Constants() {
     }
 }
