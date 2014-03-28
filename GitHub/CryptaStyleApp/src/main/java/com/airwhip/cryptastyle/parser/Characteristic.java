@@ -41,11 +41,11 @@ public class Characteristic {
         return true;
     }
 
-    public long[] get() {
-        long[] clone = new long[weight.length];
-        for (int i = 0; i < weight.length; i++) {
-            clone[i] = weight[i];
-        }
-        return clone;
+    public long get(int i) {
+        return weight[i];
+    }
+
+    public int size() {
+        return weight.length;
     }
 }
