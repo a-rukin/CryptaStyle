@@ -1,6 +1,7 @@
 package com.airwhip.cryptastyle.misc;
 
 import com.airwhip.cryptastyle.R;
+import com.airwhip.cryptastyle.WelcomeActivity;
 
 /**
  * Created by Whiplash on 17.03.14.
@@ -34,6 +35,19 @@ public class Constants {
             R.drawable.stalin,
             R.drawable.cat_lady,
             R.drawable.dog_lover};
+
+    public static final int[] colors = {
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00,
+            0xFF00FF00};
 
     private Constants() {
     }

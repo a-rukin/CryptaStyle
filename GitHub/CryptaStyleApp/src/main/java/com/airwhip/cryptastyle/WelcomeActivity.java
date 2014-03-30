@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -15,10 +18,9 @@ import com.airwhip.cryptastyle.anim.Fade;
 import com.airwhip.cryptastyle.anim.Move;
 import com.airwhip.cryptastyle.anim.Spin;
 import com.airwhip.cryptastyle.getters.AccountInformation;
-import com.airwhip.cryptastyle.getters.ApplicationInformation;
-import com.airwhip.cryptastyle.getters.BrowserInformation;
 import com.airwhip.cryptastyle.getters.MusicInformation;
 import com.airwhip.cryptastyle.misc.Constants;
+import com.airwhip.cryptastyle.misc.CustomizeArrayAdapter;
 import com.airwhip.cryptastyle.misc.Internet;
 import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
@@ -36,6 +38,8 @@ public class WelcomeActivity extends Activity {
     private ImageView plugImage;
     private ImageView socketImage;
 
+    private ListView otherResults;
+
     private Characteristic characteristic = new Characteristic();
 
     @Override
@@ -52,6 +56,8 @@ public class WelcomeActivity extends Activity {
 
         plugImage = (ImageView) findViewById(R.id.plugImage);
         socketImage = (ImageView) findViewById(R.id.socketImage);
+
+        otherResults = (ListView) findViewById(R.id.otherResults);
 
         circle.setOnClickListener(new StartButtonClick(ProgramState.START));
     }
@@ -159,15 +165,15 @@ public class WelcomeActivity extends Activity {
             InformationParser parser = new InformationParser(getApplicationContext(), AccountInformation.get(getApplicationContext()), InformationParser.ParserType.ACCOUNT);
             characteristic.addAll(parser.getAllWeight());
             publishProgress(20);
-            parser = new InformationParser(getApplicationContext(), ApplicationInformation.get(getApplicationContext()), InformationParser.ParserType.APPLICATION);
-            characteristic.addAll(parser.getAllWeight());
-            publishProgress(40);
-            parser = new InformationParser(getApplicationContext(), BrowserInformation.getHistory(getApplicationContext()), InformationParser.ParserType.HISTORY);
-            characteristic.addAll(parser.getAllWeight());
-            publishProgress(60);
-            parser = new InformationParser(getApplicationContext(), BrowserInformation.getBookmarks(getApplicationContext()), InformationParser.ParserType.BOOKMARKS);
-            characteristic.addAll(parser.getAllWeight());
-            publishProgress(80);
+//            parser = new InformationParser(getApplicationContext(), ApplicationInformation.get(getApplicationContext()), InformationParser.ParserType.APPLICATION);
+//            characteristic.addAll(parser.getAllWeight());
+//            publishProgress(40);
+//            parser = new InformationParser(getApplicationContext(), BrowserInformation.getHistory(getApplicationContext()), InformationParser.ParserType.HISTORY);
+//            characteristic.addAll(parser.getAllWeight());
+//            publishProgress(60);
+//            parser = new InformationParser(getApplicationContext(), BrowserInformation.getBookmarks(getApplicationContext()), InformationParser.ParserType.BOOKMARKS);
+//            characteristic.addAll(parser.getAllWeight());
+//            publishProgress(80);
             parser = new InformationParser(getApplicationContext(), MusicInformation.get(getApplicationContext()), InformationParser.ParserType.MUSIC);
             characteristic.addAll(parser.getAllWeight());
             publishProgress(100);
@@ -198,6 +204,43 @@ public class WelcomeActivity extends Activity {
             }
             ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[max].toUpperCase());
             ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[max]);
+            otherResults.setFocusable(false);
+
+            String[] types = new String[characteristic.size() - 1];
+            int[] progress = new int[characteristic.size() - 1];
+            for (int i = 0; i < characteristic.size(); i++) {
+                if (i < max) {
+                    types[i] = getResources().getStringArray(R.array.types)[i];
+                    progress[i] = 0; // TODO get normal result
+                }
+                if (i > max) {
+                    types[i - 1] = getResources().getStringArray(R.array.types)[i];
+                    progress[i - 1] = 0; // TODO get normal result
+                }
+            }
+            progress[4] = 20;
+            progress[3] = 10;
+            progress[5] = 100;
+            ArrayAdapter<String> adapter = new CustomizeArrayAdapter(getApplicationContext(), types, progress);
+            otherResults.setAdapter(adapter);
+
+            int totalHeight = otherResults.getPaddingTop() + otherResults.getPaddingBottom();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                View item = adapter.getView(i, null, otherResults);
+                if (item != null) {
+                    if (item instanceof ViewGroup) {
+                        item.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    }
+                    item.measure(0, 0);
+                    totalHeight += item.getMeasuredHeight();
+                }
+            }
+
+            ViewGroup.LayoutParams params = otherResults.getLayoutParams();
+            if (params != null) {
+                params.height = totalHeight + (otherResults.getDividerHeight() * (adapter.getCount() - 1));
+                otherResults.setLayoutParams(params);
+            }
         }
 
         @Override

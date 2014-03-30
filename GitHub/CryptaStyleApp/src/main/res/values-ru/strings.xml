@@ -5,6 +5,7 @@
     <string name="no_internet">НЕТ ИНТЕРНЕТА</string>
     <string name="check_internet">Проверьте ваше интернет соединение\nи коснитесь кнопки снова</string>
     <string name="click_start">Коснитесь кнопки чтобы начать</string>
+    <string name="general_statistics">ОБЩАЯ СТАТИСТИКА</string>
 
     <!--Types of people-->
     <string-array name="types">
@@ -19,7 +20,7 @@
         <item>Сталин</item>
         <item>Кошатница</item>
         <item>Собачница</item>
-        <item>НЛО</item>
     </string-array>
+    <string name="ufo">НЛО</string>
 
 </resources>

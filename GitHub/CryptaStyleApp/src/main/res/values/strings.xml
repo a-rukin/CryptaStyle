@@ -7,6 +7,7 @@
     <string name="no_internet">NO INTERNET</string>
     <string name="check_internet">Check your internet connection\nand touch button again</string>
     <string name="click_start">Touch button to start</string>
+    <string name="general_statistics">GENERAL STATISTICS</string>
 
     <!--Types of people-->
     <string-array name="types">
@@ -21,7 +22,7 @@
         <item>Stalin</item>
         <item>Cat lady</item>
         <item>Dog lover</item>
-        <item>UFO</item>
     </string-array>
+    <string name="ufo">UFO</string>
 
 </resources>
