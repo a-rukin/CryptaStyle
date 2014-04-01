@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:divider="@null"
-                android:dividerHeight="2dp" />
+                android:dividerHeight="0dp" />
 
             <Button
                 android:id="@+id/button"

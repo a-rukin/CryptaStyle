@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -24,6 +25,10 @@ import com.airwhip.cryptastyle.misc.CustomizeArrayAdapter;
 import com.airwhip.cryptastyle.misc.Internet;
 import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class WelcomeActivity extends Activity {
@@ -196,9 +201,30 @@ public class WelcomeActivity extends Activity {
         }
 
         private void fillResult() {
-            int max = 0;
+            // TODO uncomment it
+//            int max = 0;
+//            for (int i = 0; i < characteristic.size(); i++) {
+//                if (characteristic.get(i) > characteristic.get(max)) {
+//                    max = i;
+//                }
+//            }
+//            ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[max].toUpperCase());
+//            ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[max]);
+//            otherResults.setFocusable(false);
+
+            List<String> types = new ArrayList<>();
+            List<Integer> progress = new ArrayList<>();
             for (int i = 0; i < characteristic.size(); i++) {
-                if (characteristic.get(i) > characteristic.get(max)) {
+                if (true) { // TODO check whether the user has visited pikabu
+                    types.add(getResources().getStringArray(R.array.types)[i]);
+                    progress.add(new Random().nextInt(100)); // TODO get normal result
+                }
+            }
+
+            // TODO remove it
+            int max = 0;
+            for (int i = 0; i < progress.size(); i++) {
+                if (progress.get(i) > progress.get(max)) {
                     max = i;
                 }
             }
@@ -206,23 +232,9 @@ public class WelcomeActivity extends Activity {
             ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[max]);
             otherResults.setFocusable(false);
 
-            String[] types = new String[characteristic.size() - 1];
-            int[] progress = new int[characteristic.size() - 1];
-            for (int i = 0; i < characteristic.size(); i++) {
-                if (i < max) {
-                    types[i] = getResources().getStringArray(R.array.types)[i];
-                    progress[i] = 0; // TODO get normal result
-                }
-                if (i > max) {
-                    types[i - 1] = getResources().getStringArray(R.array.types)[i];
-                    progress[i - 1] = 0; // TODO get normal result
-                }
-            }
-            progress[4] = 20;
-            progress[3] = 10;
-            progress[5] = 100;
-            ArrayAdapter<String> adapter = new CustomizeArrayAdapter(getApplicationContext(), types, progress);
+            ArrayAdapter<String> adapter = new CustomizeArrayAdapter(getApplicationContext(), types.toArray(new String[types.size()]), progress.toArray(new Integer[progress.size()]));
             otherResults.setAdapter(adapter);
+            // ------------------
 
             int totalHeight = otherResults.getPaddingTop() + otherResults.getPaddingBottom();
             for (int i = 0; i < adapter.getCount(); i++) {
@@ -241,6 +253,13 @@ public class WelcomeActivity extends Activity {
                 params.height = totalHeight + (otherResults.getDividerHeight() * (adapter.getCount() - 1));
                 otherResults.setLayoutParams(params);
             }
+
+            otherResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // TODO change smth
+                }
+            });
         }
 
         @Override

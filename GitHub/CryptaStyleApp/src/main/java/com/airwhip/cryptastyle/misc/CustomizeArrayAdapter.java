@@ -15,15 +15,15 @@ import com.airwhip.cryptastyle.R;
  */
 public class CustomizeArrayAdapter extends ArrayAdapter<String> {
 
-    private static final int ENABLED_POSITION = 5;
+    private static final int ENABLED_POSITIONS = 3;
 
     private Context context;
     private String[] names;
-    private int[] progress;
+    private Integer[] progress;
 
     private int[] sorted;
 
-    public CustomizeArrayAdapter(Context context, String[] names, int[] progress) {
+    public CustomizeArrayAdapter(Context context, String[] names, Integer[] progress) {
         super(context, R.layout.listviewitem, names);
         this.context = context;
         this.names = names;
@@ -69,7 +69,7 @@ public class CustomizeArrayAdapter extends ArrayAdapter<String> {
         holder.typeText.setText(names[position]);
         holder.progressBar.getLayoutParams().width = 3 * progress[position];
         holder.progressBar.setBackgroundColor(Constants.colors[id]);
-        holder.icon.setImageResource(R.drawable.ic_launcher); // TODO set normal icon
+        holder.icon.setImageResource(Constants.icos[id]);
         holder.icon.setBackgroundColor(Constants.colors[id]);
 
         if (!isEnabled(position)) {
@@ -92,7 +92,7 @@ public class CustomizeArrayAdapter extends ArrayAdapter<String> {
 
     @Override
     public boolean isEnabled(int position) {
-        for (int i = 0; i < sorted.length && i < ENABLED_POSITION; i++) {
+        for (int i = 0; i < sorted.length && i < ENABLED_POSITIONS; i++) {
             if (sorted[i] == position) {
                 return true;
             }

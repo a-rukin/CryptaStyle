@@ -12,16 +12,14 @@
     <!--Types of people-->
     <string-array name="types">
         <item>Geek</item>
-        <item>Housewife</item>
+        <item>Loner</item>
         <item>Trendy</item>
         <item>Student</item>
-        <item>Child</item>
         <item>Traveler</item>
         <item>Anime addicted</item>
         <item>Music lover</item>
-        <item>Stalin</item>
-        <item>Cat lady</item>
-        <item>Dog lover</item>
+        <item>Animal lover</item>
+        <item>Picabu lover</item>
     </string-array>
     <string name="ufo">UFO</string>
 

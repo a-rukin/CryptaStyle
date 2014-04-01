@@ -10,16 +10,14 @@
     <!--Types of people-->
     <string-array name="types">
         <item>Гик</item>
-        <item>Домохозяйка</item>
-        <item>Модница</item>
+        <item>Холостяк</item>
+        <item>Модник</item>
         <item>Студент</item>
-        <item>Ребенок</item>
         <item>Путешественник</item>
         <item>Анимешник</item>
         <item>Меломан</item>
-        <item>Сталин</item>
-        <item>Кошатница</item>
-        <item>Собачница</item>
+        <item>Любитель животных</item>
+        <item>Пикабушник</item>
     </string-array>
     <string name="ufo">НЛО</string>
 
