@@ -3,5 +3,6 @@
 
     <color name="background">#655253</color>
     <color name="title">#F8F9ED</color>
+    <color name="border">#FDB13D</color>
 
 </resources>

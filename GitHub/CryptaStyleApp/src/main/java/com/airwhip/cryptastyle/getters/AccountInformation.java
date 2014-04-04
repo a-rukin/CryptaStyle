@@ -4,7 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 
-import com.airwhip.cryptastyle.misc.XmlHalper;
+import com.airwhip.cryptastyle.misc.XmlHelper;
 
 /**
  * Created by Whiplash on 06.03.14.
@@ -31,8 +31,8 @@ public class AccountInformation {
             Account[] accounts = am.getAccounts();
             for (Account ac : accounts) {
                 result.append(ITEM_TAG_BEGIN);
-                result.append(NAME_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(ac.name) + NAME_TAG_END);
-                result.append(TYPE_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(ac.type) + TYPE_TAG_END);
+                result.append(NAME_TAG_BEGIN + XmlHelper.removeXmlBadSymbols(ac.name) + NAME_TAG_END);
+                result.append(TYPE_TAG_BEGIN + XmlHelper.removeXmlBadSymbols(ac.type) + TYPE_TAG_END);
                 result.append(ITEM_TAG_END);
             }
         }

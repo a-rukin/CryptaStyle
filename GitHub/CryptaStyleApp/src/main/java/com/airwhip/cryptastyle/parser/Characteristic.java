@@ -9,40 +9,26 @@ import com.airwhip.cryptastyle.misc.Constants;
  */
 public class Characteristic {
 
-    /*  0 - Geek
-        1 - Housewife
-        2 - Trendy
-        3 - Student
-        4 - Child
-        5 - Traveler
-        6 - Anime addicted
-        7 - Music lover
-        8 - Stalin
-        9 - Cat lady
-        10 - Dog lover
-        Extra - UFO */
-    private long[] weight = new long[Constants.xmls.length];
+    private double[] weight = new double[Constants.xmls.length];
+    private double[] max = new double[Constants.xmls.length];
 
-    public void add(int position, long value) {
-        weight[position] += value;
-    }
-
-    public void addAll(long[] values) {
+    public void addAll(double[] values, double[] maxValues) {
         if (values.length != weight.length) {
             Log.e(Constants.ERROR_TAG, "INCORRECT ARRAY SIZE");
         }
         for (int i = 0; i < values.length; i++) {
             weight[i] += values[i];
+            max[i] += maxValues[i];
         }
     }
 
     public boolean isUFO() {
         // TODO check it
-        return true;
+        return false;
     }
 
-    public long get(int i) {
-        return weight[i];
+    public int get(int i) {
+        return max[i] != 0 ? Math.min((int) (100. * weight[i] / max[i]), 100) : 0;
     }
 
     public int size() {

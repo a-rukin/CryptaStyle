@@ -15,7 +15,7 @@ import com.airwhip.cryptastyle.R;
  */
 public class CustomizeArrayAdapter extends ArrayAdapter<String> {
 
-    private static final int ENABLED_POSITIONS = 3;
+    private static final int ENABLED_POSITIONS = Constants.xmls.length;
 
     private Context context;
     private String[] names;
@@ -56,6 +56,7 @@ public class CustomizeArrayAdapter extends ArrayAdapter<String> {
             holder = new ViewHolder();
             holder.icon = (ImageView) rowView.findViewById(R.id.icon);
             holder.progressBar = (ImageView) rowView.findViewById(R.id.progressBar);
+            holder.progressBarTriangle = (ImageView) rowView.findViewById(R.id.progressBarTriangle);
             holder.progressText = (TextView) rowView.findViewById(R.id.progressText);
             holder.typeText = (TextView) rowView.findViewById(R.id.typeName);
             rowView.setTag(holder);
@@ -69,6 +70,7 @@ public class CustomizeArrayAdapter extends ArrayAdapter<String> {
         holder.typeText.setText(names[position]);
         holder.progressBar.getLayoutParams().width = 3 * progress[position];
         holder.progressBar.setBackgroundColor(Constants.colors[id]);
+        holder.progressBarTriangle.setBackgroundColor(Constants.colors[id]);
         holder.icon.setImageResource(Constants.icos[id]);
         holder.icon.setBackgroundColor(Constants.colors[id]);
 
@@ -103,6 +105,7 @@ public class CustomizeArrayAdapter extends ArrayAdapter<String> {
     private class ViewHolder {
         public ImageView icon;
         public ImageView progressBar;
+        public ImageView progressBarTriangle;
         public TextView progressText;
         public TextView typeText;
     }

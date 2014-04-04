@@ -3,18 +3,17 @@ package com.airwhip.cryptastyle.misc;
 /**
  * Created by Whiplash on 18.03.14.
  */
-public class XmlHalper {
+public class XmlHelper {
     private static final String ERROR_SYMBOLS = "[&\\?<>\"\'\\{}@]";
-    private static XmlHalper ourInstance = new XmlHalper();
 
-    private XmlHalper() {
-    }
-
-    public static XmlHalper getInstance() {
-        return ourInstance;
+    private XmlHelper() {
     }
 
     public static String removeXmlBadSymbols(String str) {
         return str.replaceAll(ERROR_SYMBOLS, " ");
+    }
+
+    public static boolean isContainsPikabu(StringBuilder xml) {
+        return xml.indexOf("pikabu.ru") != -1;
     }
 }

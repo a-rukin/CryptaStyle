@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.airwhip.cryptastyle.misc.XmlHalper;
+import com.airwhip.cryptastyle.misc.XmlHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +53,7 @@ public class MusicInformation {
 
         for (String artist : artistsList) {
             result.append(ITEM_TAG_BEGIN);
-            result.append(NAME_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(artist) + NAME_TAG_END);
+            result.append(NAME_TAG_BEGIN + XmlHelper.removeXmlBadSymbols(artist) + NAME_TAG_END);
             result.append(COUNT_TAG_BEGIN + artistsStorage.get(artist) + COUNT_TAG_END);
             result.append(ITEM_TAG_END);
         }
