@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/background"
+    android:padding="1dp">
 
     <ImageView
         android:id="@+id/icon"
@@ -16,6 +18,13 @@
         android:layout_width="75dp"
         android:layout_height="40dp"
         android:background="@android:color/holo_blue_dark" />
+
+    <ImageView
+        android:id="@+id/progressBarTriangle"
+        android:layout_width="16dp"
+        android:layout_height="40dp"
+        android:background="@android:color/holo_blue_dark"
+        android:src="@drawable/triangle" />
 
     <TextView
         android:id="@+id/progressText"

@@ -58,7 +58,7 @@
 
         <TextView
             android:id="@+id/tipText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="100dp"
@@ -100,6 +100,16 @@
                 android:src="@drawable/trendy" />
 
             <TextView
+                android:id="@+id/definitionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_horizontal"
+                android:textColor="@color/title"
+                android:textSize="20sp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -113,9 +123,9 @@
                 android:id="@+id/otherResults"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:divider="@null"
-                android:dividerHeight="0dp" />
+                android:dividerHeight="5dp" />
 
             <Button
                 android:id="@+id/button"

@@ -11,7 +11,8 @@
     </application>
 
     <history>
-        <weight-array id="100">
+        <weight-array id="80">
+            <item>pikabu</item>
         </weight-array>
     </history>
 

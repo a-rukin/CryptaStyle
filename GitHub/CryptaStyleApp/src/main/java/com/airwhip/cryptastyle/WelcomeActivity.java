@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -19,16 +18,18 @@ import com.airwhip.cryptastyle.anim.Fade;
 import com.airwhip.cryptastyle.anim.Move;
 import com.airwhip.cryptastyle.anim.Spin;
 import com.airwhip.cryptastyle.getters.AccountInformation;
+import com.airwhip.cryptastyle.getters.ApplicationInformation;
+import com.airwhip.cryptastyle.getters.BrowserInformation;
 import com.airwhip.cryptastyle.getters.MusicInformation;
 import com.airwhip.cryptastyle.misc.Constants;
 import com.airwhip.cryptastyle.misc.CustomizeArrayAdapter;
 import com.airwhip.cryptastyle.misc.Internet;
+import com.airwhip.cryptastyle.misc.XmlHelper;
 import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class WelcomeActivity extends Activity {
@@ -45,7 +46,10 @@ public class WelcomeActivity extends Activity {
 
     private ListView otherResults;
 
+    private int maxResultIndex = 0;
+
     private Characteristic characteristic = new Characteristic();
+    private StringBuilder xml = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,16 +134,16 @@ public class WelcomeActivity extends Activity {
                     tipText.setAlpha(0);
                     break;
                 case NO_INTERNET:
-                    if (!Internet.checkInternetConnection(getApplicationContext())) {
-                        plugImage.startAnimation(new Move(-18, 18, false));
-                        socketImage.startAnimation(new Move(18, -18, false));
-                    } else {
+                    if (Internet.checkInternetConnection(getApplicationContext())) {
                         plugImage.startAnimation(new Fade(plugImage, 0f));
                         socketImage.startAnimation(new Fade(socketImage, 0f));
                         findViewById(R.id.noInternetText).startAnimation(new Fade(findViewById(R.id.noInternetText), 0f));
                         tipText.startAnimation(new Fade(tipText, 0f));
                         fadeOut.setAnimationListener(new StartButtonAnimation(ProgramState.START));
                         circle.startAnimation(fadeOut);
+                    } else {
+                        plugImage.startAnimation(new Move(-18, 18, false));
+                        socketImage.startAnimation(new Move(18, -18, false));
                     }
             }
 
@@ -167,20 +171,30 @@ public class WelcomeActivity extends Activity {
                 }
             });
 
-            InformationParser parser = new InformationParser(getApplicationContext(), AccountInformation.get(getApplicationContext()), InformationParser.ParserType.ACCOUNT);
-            characteristic.addAll(parser.getAllWeight());
+            StringBuilder partOfXml = AccountInformation.get(getApplicationContext());
+            InformationParser parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.ACCOUNT);
+            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            xml.append(partOfXml);
             publishProgress(20);
-//            parser = new InformationParser(getApplicationContext(), ApplicationInformation.get(getApplicationContext()), InformationParser.ParserType.APPLICATION);
-//            characteristic.addAll(parser.getAllWeight());
-//            publishProgress(40);
-//            parser = new InformationParser(getApplicationContext(), BrowserInformation.getHistory(getApplicationContext()), InformationParser.ParserType.HISTORY);
-//            characteristic.addAll(parser.getAllWeight());
-//            publishProgress(60);
-//            parser = new InformationParser(getApplicationContext(), BrowserInformation.getBookmarks(getApplicationContext()), InformationParser.ParserType.BOOKMARKS);
-//            characteristic.addAll(parser.getAllWeight());
-//            publishProgress(80);
-            parser = new InformationParser(getApplicationContext(), MusicInformation.get(getApplicationContext()), InformationParser.ParserType.MUSIC);
-            characteristic.addAll(parser.getAllWeight());
+            partOfXml = ApplicationInformation.get(getApplicationContext());
+            parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.APPLICATION);
+            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            xml.append(partOfXml);
+            publishProgress(40);
+            partOfXml = BrowserInformation.getHistory(getApplicationContext());
+            parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.HISTORY);
+            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            xml.append(partOfXml);
+            publishProgress(60);
+            partOfXml = BrowserInformation.getBookmarks(getApplicationContext());
+            parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.BOOKMARKS);
+            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            xml.append(partOfXml);
+            publishProgress(80);
+            partOfXml = MusicInformation.get(getApplicationContext());
+            parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.MUSIC);
+            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            xml.append(partOfXml);
             publishProgress(100);
 
             try {
@@ -188,6 +202,24 @@ public class WelcomeActivity extends Activity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+//            try {
+//                File newFolder = new File(Environment.getExternalStorageDirectory(), "TestFolder");
+//                if (!newFolder.exists()) {
+//                    newFolder.mkdir();
+//                }
+//                try {
+//                    File file = new File(newFolder, "MyTest.txt");
+//                    file.createNewFile();
+//                    PrintWriter pw = new PrintWriter(file);
+//                    pw.print(xml);
+//                    pw.close();
+//                } catch (Exception ex) {
+//                    Log.d(Constants.DEBUG_TAG, "ex: " + ex);
+//                }
+//            } catch (Exception e) {
+//                Log.d(Constants.DEBUG_TAG, "e: " + e);
+//            }
 
             return null;
         }
@@ -201,41 +233,27 @@ public class WelcomeActivity extends Activity {
         }
 
         private void fillResult() {
-            // TODO uncomment it
-//            int max = 0;
-//            for (int i = 0; i < characteristic.size(); i++) {
-//                if (characteristic.get(i) > characteristic.get(max)) {
-//                    max = i;
-//                }
-//            }
-//            ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[max].toUpperCase());
-//            ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[max]);
-//            otherResults.setFocusable(false);
+            for (int i = 0; i < characteristic.size(); i++) {
+                if (characteristic.get(i) > characteristic.get(maxResultIndex)) {
+                    maxResultIndex = i;
+                }
+            }
+            ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[maxResultIndex].toUpperCase());
+            ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[maxResultIndex]);
+            ((TextView) findViewById(R.id.definitionText)).setText("DEFINITION");
+            otherResults.setFocusable(false);
 
             List<String> types = new ArrayList<>();
             List<Integer> progress = new ArrayList<>();
-            for (int i = 0; i < characteristic.size(); i++) {
-                if (true) { // TODO check whether the user has visited pikabu
-                    types.add(getResources().getStringArray(R.array.types)[i]);
-                    progress.add(new Random().nextInt(100)); // TODO get normal result
-                }
+            for (int i = 0; i < characteristic.size() - (XmlHelper.isContainsPikabu(xml) ? 0 : 1); i++) {
+                types.add(getResources().getStringArray(R.array.types)[i]);
+                progress.add(characteristic.get(i));
             }
-
-            // TODO remove it
-            int max = 0;
-            for (int i = 0; i < progress.size(); i++) {
-                if (progress.get(i) > progress.get(max)) {
-                    max = i;
-                }
-            }
-            ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[max].toUpperCase());
-            ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[max]);
-            otherResults.setFocusable(false);
 
             ArrayAdapter<String> adapter = new CustomizeArrayAdapter(getApplicationContext(), types.toArray(new String[types.size()]), progress.toArray(new Integer[progress.size()]));
             otherResults.setAdapter(adapter);
-            // ------------------
 
+            // --------fixed bug: ListView in ScrollView--------
             int totalHeight = otherResults.getPaddingTop() + otherResults.getPaddingBottom();
             for (int i = 0; i < adapter.getCount(); i++) {
                 View item = adapter.getView(i, null, otherResults);
@@ -247,19 +265,12 @@ public class WelcomeActivity extends Activity {
                     totalHeight += item.getMeasuredHeight();
                 }
             }
-
             ViewGroup.LayoutParams params = otherResults.getLayoutParams();
             if (params != null) {
                 params.height = totalHeight + (otherResults.getDividerHeight() * (adapter.getCount() - 1));
                 otherResults.setLayoutParams(params);
             }
-
-            otherResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // TODO change smth
-                }
-            });
+            // -----------------------------------------------------
         }
 
         @Override

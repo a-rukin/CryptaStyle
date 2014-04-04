@@ -22,9 +22,16 @@ public class InformationParser {
 
     private static final String WEIGHT_ARRAY_TAG = "weight-array";
     private static final String ITEM_TAG = "item";
+
+    private static final double MAX = 100.;
+    private static final double SHIFT = MAX * 0.1;
+
     private Context context;
     private ParserType type;
     private List<String> storage = new ArrayList<>();
+
+    private double[] weight = new double[Constants.xmls.length];
+    private double[] max = new double[Constants.xmls.length];
 
     public InformationParser(Context context, StringBuilder xml, ParserType type) {
         this.context = context;
@@ -68,21 +75,27 @@ public class InformationParser {
             Log.e(Constants.ERROR_TAG, e.getMessage() + " " + type.toString());
         }
 
-//        for (String str : storage) {
-//            Log.d(Constants.DEBUG_TAG, str);
-//        }
-    }
-
-    public long[] getAllWeight() {
-        long[] result = new long[Constants.xmls.length];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = getWeight(Constants.xmls[i]);
+        for (int i = 0; i < weight.length; i++) {
+            calculateWeight(i);
         }
-        return result;
     }
 
-    public long getWeight(int xml) {
-        long resultWeight = 0;
+    public double[] getAllMax() {
+        double[] copyMax = new double[max.length];
+        System.arraycopy(max, 0, copyMax, 0, max.length);
+        return copyMax;
+    }
+
+    public double[] getAllWeight() {
+        double[] copyWeight = new double[weight.length];
+        System.arraycopy(weight, 0, copyWeight, 0, weight.length);
+        return copyWeight;
+    }
+
+    private void calculateWeight(int index) {
+        int xml = Constants.xmls[index];
+        double resultWeight = 0;
+        double resultMax = 0;
         boolean[] isUsed = new boolean[storage.size()];
         try {
             XmlResourceParser xrp = context.getResources().getXml(xml);
@@ -90,7 +103,7 @@ public class InformationParser {
             int eventType = xrp.getEventType();
 
             String currentTag = "";
-            long currentWeight = 0;
+            double currentWeight = 0.;
             boolean isCorrectTag = false;
 
             while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -106,7 +119,9 @@ public class InformationParser {
                         break;
                     case XmlPullParser.TEXT:
                         if (isCorrectTag && currentTag.equals(ITEM_TAG)) {
-                            resultWeight += numberOfEntries(xrp.getText(), isUsed) * currentWeight;
+                            int num = numberOfEntries(xrp.getText(), isUsed);
+                            resultWeight += currentWeight * num;
+                            resultMax += (MAX - SHIFT < currentWeight ? currentWeight * num : (currentWeight + SHIFT) * num);
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -122,7 +137,9 @@ public class InformationParser {
         } catch (XmlPullParserException | IOException | NullPointerException e) {
             Log.e(Constants.ERROR_TAG, e.getMessage() + " " + type.toString());
         }
-        return resultWeight;
+
+        weight[index] = resultWeight;
+        max[index] = resultMax;
     }
 
     private int numberOfEntries(String str, boolean[] isUsed) {

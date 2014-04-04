@@ -5,14 +5,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Browser;
 
-import com.airwhip.cryptastyle.misc.XmlHalper;
+import com.airwhip.cryptastyle.misc.XmlHelper;
 
 /**
  * Created by Whiplash on 07.03.14.
  */
 public class BrowserInformation {
-    private static final Uri CHROME = Uri.parse("content://com.android.chrome.browser/bookmarks");
-    private static final Uri DEFAULT = Browser.BOOKMARKS_URI;
+    private static final Uri[] URI = {Uri.parse("content://com.android.chrome.browser/bookmarks"), Browser.BOOKMARKS_URI};
 
     private static final String HISTORY = Browser.BookmarkColumns.BOOKMARK + " = 0";
     private static final String BOOKMARK = Browser.BookmarkColumns.BOOKMARK + " = 1";
@@ -37,10 +36,9 @@ public class BrowserInformation {
     public static StringBuilder getHistory(Context context) {
         StringBuilder result = new StringBuilder(HISTORY_TAG_BEGIN);
 
-        // get history from default browser
-        result.append(getInformationFromDataBase(context.getContentResolver().query(DEFAULT, PROJECTION, HISTORY, null, null)));
-        // from chrome
-        result.append(getInformationFromDataBase(context.getContentResolver().query(CHROME, PROJECTION, HISTORY, null, null)));
+        for (Uri uri : URI) {
+            result.append(getInformationFromDataBase(context.getContentResolver().query(uri, PROJECTION, HISTORY, null, null)));
+        }
 
         return result.append(HISTORY_TAG_END);
     }
@@ -48,8 +46,9 @@ public class BrowserInformation {
     public static StringBuilder getBookmarks(Context context) {
         StringBuilder result = new StringBuilder(BOOKMARK_TAG_BEGIN);
 
-        // get bookmarks from chrome
-        result.append(getInformationFromDataBase(context.getContentResolver().query(CHROME, PROJECTION, BOOKMARK, null, null)));
+        for (Uri uri : URI) {
+            result.append(getInformationFromDataBase(context.getContentResolver().query(uri, PROJECTION, BOOKMARK, null, null)));
+        }
 
         return result.append(BOOKMARK_TAG_END);
     }
@@ -59,8 +58,8 @@ public class BrowserInformation {
         if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
             while (!cursor.isAfterLast()) {
                 result.append(ITEM_TAG_BEGIN);
-                result.append(TITLE_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.TITLE))) + TITLE_TAG_END);
-                result.append(URL_TAG_BEGIN + XmlHalper.removeXmlBadSymbols(cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL))) + URL_TAG_END);
+                result.append(TITLE_TAG_BEGIN + XmlHelper.removeXmlBadSymbols(cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.TITLE))) + TITLE_TAG_END);
+                result.append(URL_TAG_BEGIN + XmlHelper.removeXmlBadSymbols(cursor.getString(cursor.getColumnIndex(Browser.BookmarkColumns.URL))) + URL_TAG_END);
                 result.append(ITEM_TAG_END);
                 cursor.moveToNext();
             }
