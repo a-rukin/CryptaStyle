@@ -6,6 +6,7 @@
     <string name="check_internet">Проверьте ваше интернет соединение\nи коснитесь кнопки снова</string>
     <string name="click_start">Коснитесь кнопки чтобы начать</string>
     <string name="general_statistics">ОБЩАЯ СТАТИСТИКА</string>
+    <string name="select_social_network">Выберите социальную сеть\nчтобы поделиться результатом с друзьями</string>
 
     <!--Types of people-->
     <string-array name="types">
