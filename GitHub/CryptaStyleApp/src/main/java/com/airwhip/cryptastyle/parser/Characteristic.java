@@ -9,10 +9,15 @@ import com.airwhip.cryptastyle.misc.Constants;
  */
 public class Characteristic {
 
-    private double[] weight = new double[Constants.xmls.length];
-    private double[] max = new double[Constants.xmls.length];
+    private static StringBuilder xml = new StringBuilder();
 
-    public void addAll(double[] values, double[] maxValues) {
+    private static double[] weight = new double[Constants.xmls.length];
+    private static double[] max = new double[Constants.xmls.length];
+
+    private Characteristic() {
+    }
+
+    public static void addAll(double[] values, double[] maxValues) {
         if (values.length != weight.length) {
             Log.e(Constants.ERROR_TAG, "INCORRECT ARRAY SIZE");
         }
@@ -22,16 +27,24 @@ public class Characteristic {
         }
     }
 
-    public boolean isUFO() {
+    public static void append(StringBuilder newXml) {
+        xml.append(newXml);
+    }
+
+    public static boolean isUFO() {
         // TODO check it
         return false;
     }
 
-    public int get(int i) {
+    public static int get(int i) {
         return max[i] != 0 ? Math.min((int) (100. * weight[i] / max[i]), 100) : 0;
     }
 
-    public int size() {
+    public static StringBuilder getXml() {
+        return xml;
+    }
+
+    public static int size() {
         return weight.length;
     }
 }
