@@ -1,17 +1,13 @@
 package com.airwhip.cryptastyle;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.airwhip.cryptastyle.anim.Fade;
@@ -21,21 +17,12 @@ import com.airwhip.cryptastyle.getters.AccountInformation;
 import com.airwhip.cryptastyle.getters.ApplicationInformation;
 import com.airwhip.cryptastyle.getters.BrowserInformation;
 import com.airwhip.cryptastyle.getters.MusicInformation;
-import com.airwhip.cryptastyle.misc.Constants;
-import com.airwhip.cryptastyle.misc.CustomizeArrayAdapter;
 import com.airwhip.cryptastyle.misc.Internet;
-import com.airwhip.cryptastyle.misc.XmlHelper;
 import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class WelcomeActivity extends Activity {
-
-    private FrameLayout startLayout;
-    private ScrollView resultView;
 
     private ImageButton circle;
     private TextView startText;
@@ -44,20 +31,10 @@ public class WelcomeActivity extends Activity {
     private ImageView plugImage;
     private ImageView socketImage;
 
-    private ListView otherResults;
-
-    private int maxResultIndex = 0;
-
-    private Characteristic characteristic = new Characteristic();
-    private StringBuilder xml = new StringBuilder();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        startLayout = (FrameLayout) findViewById(R.id.startLayout);
-        resultView = (ScrollView) findViewById(R.id.resultView);
 
         circle = (ImageButton) findViewById(R.id.circle);
         startText = (TextView) findViewById(R.id.startText);
@@ -65,8 +42,6 @@ public class WelcomeActivity extends Activity {
 
         plugImage = (ImageView) findViewById(R.id.plugImage);
         socketImage = (ImageView) findViewById(R.id.socketImage);
-
-        otherResults = (ListView) findViewById(R.id.otherResults);
 
         circle.setOnClickListener(new StartButtonClick(ProgramState.START));
     }
@@ -173,53 +148,29 @@ public class WelcomeActivity extends Activity {
 
             StringBuilder partOfXml = AccountInformation.get(getApplicationContext());
             InformationParser parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.ACCOUNT);
-            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
-            xml.append(partOfXml);
+            Characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            Characteristic.append(partOfXml);
             publishProgress(20);
             partOfXml = ApplicationInformation.get(getApplicationContext());
             parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.APPLICATION);
-            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
-            xml.append(partOfXml);
+            Characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            Characteristic.append(partOfXml);
             publishProgress(40);
             partOfXml = BrowserInformation.getHistory(getApplicationContext());
             parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.HISTORY);
-            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
-            xml.append(partOfXml);
+            Characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            Characteristic.append(partOfXml);
             publishProgress(60);
             partOfXml = BrowserInformation.getBookmarks(getApplicationContext());
             parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.BOOKMARKS);
-            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
-            xml.append(partOfXml);
+            Characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            Characteristic.append(partOfXml);
             publishProgress(80);
             partOfXml = MusicInformation.get(getApplicationContext());
             parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.MUSIC);
-            characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
-            xml.append(partOfXml);
+            Characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
+            Characteristic.append(partOfXml);
             publishProgress(100);
-
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-//            try {
-//                File newFolder = new File(Environment.getExternalStorageDirectory(), "TestFolder");
-//                if (!newFolder.exists()) {
-//                    newFolder.mkdir();
-//                }
-//                try {
-//                    File file = new File(newFolder, "MyTest.txt");
-//                    file.createNewFile();
-//                    PrintWriter pw = new PrintWriter(file);
-//                    pw.print(xml);
-//                    pw.close();
-//                } catch (Exception ex) {
-//                    Log.d(Constants.DEBUG_TAG, "ex: " + ex);
-//                }
-//            } catch (Exception e) {
-//                Log.d(Constants.DEBUG_TAG, "e: " + e);
-//            }
 
             return null;
         }
@@ -227,50 +178,8 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            fillResult();
-            resultView.setAlpha(1);
-            startLayout.setVisibility(View.GONE);
-        }
-
-        private void fillResult() {
-            for (int i = 0; i < characteristic.size(); i++) {
-                if (characteristic.get(i) > characteristic.get(maxResultIndex)) {
-                    maxResultIndex = i;
-                }
-            }
-            ((TextView) findViewById(R.id.youAreText)).setText(getResources().getStringArray(R.array.types)[maxResultIndex].toUpperCase());
-            ((ImageView) findViewById(R.id.avatar)).setImageResource(Constants.imgs[maxResultIndex]);
-            ((TextView) findViewById(R.id.definitionText)).setText("DEFINITION");
-            otherResults.setFocusable(false);
-
-            List<String> types = new ArrayList<>();
-            List<Integer> progress = new ArrayList<>();
-            for (int i = 0; i < characteristic.size() - (XmlHelper.isContainsPikabu(xml) ? 0 : 1); i++) {
-                types.add(getResources().getStringArray(R.array.types)[i]);
-                progress.add(characteristic.get(i));
-            }
-
-            ArrayAdapter<String> adapter = new CustomizeArrayAdapter(getApplicationContext(), types.toArray(new String[types.size()]), progress.toArray(new Integer[progress.size()]));
-            otherResults.setAdapter(adapter);
-
-            // --------fixed bug: ListView in ScrollView--------
-            int totalHeight = otherResults.getPaddingTop() + otherResults.getPaddingBottom();
-            for (int i = 0; i < adapter.getCount(); i++) {
-                View item = adapter.getView(i, null, otherResults);
-                if (item != null) {
-                    if (item instanceof ViewGroup) {
-                        item.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    }
-                    item.measure(0, 0);
-                    totalHeight += item.getMeasuredHeight();
-                }
-            }
-            ViewGroup.LayoutParams params = otherResults.getLayoutParams();
-            if (params != null) {
-                params.height = totalHeight + (otherResults.getDividerHeight() * (adapter.getCount() - 1));
-                otherResults.setLayoutParams(params);
-            }
-            // -----------------------------------------------------
+            Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+            startActivity(intent);
         }
 
         @Override
