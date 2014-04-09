@@ -178,15 +178,15 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PreviewActivity.class);
             startActivity(intent);
+            finish();
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             final int progress = values[0];
-
             startText.setText(String.valueOf(progress) + "%");
         }
     }
