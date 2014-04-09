@@ -15,6 +15,9 @@
 </application>
 
 <history>
+    <weight-array id="100">
+        <item>stackoverflow</item>
+    </weight-array>
     <weight-array id="20">
         <item>github</item>
     </weight-array>

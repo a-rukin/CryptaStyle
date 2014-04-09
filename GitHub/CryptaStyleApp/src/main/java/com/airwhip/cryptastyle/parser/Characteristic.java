@@ -14,7 +14,40 @@ public class Characteristic {
     private static double[] weight = new double[Constants.xmls.length];
     private static double[] max = new double[Constants.xmls.length];
 
+    private static double maleWeight = 0.;
+    private static double femaleWeight = 0.;
+
+    private static double age = 0;
+    private static int ageIteration = 0;
+
     private Characteristic() {
+    }
+
+    public static void addAge(int ageValue) {
+        age += ageValue;
+        ageIteration++;
+    }
+
+    public static int getAge() {
+        return (int) Math.floor(age / ageIteration);
+    }
+
+    public static int getMale() {
+        if (maleWeight == femaleWeight) {
+            return 50;
+        }
+        return (int) (100 * maleWeight / (maleWeight + femaleWeight));
+    }
+
+    public static int getFemale() {
+        if (maleWeight == femaleWeight) {
+            return 50;
+        }
+        return 100 - (int) (100 * maleWeight / (maleWeight + femaleWeight));
+    }
+
+    public static boolean isMale() {
+        return maleWeight > femaleWeight;
     }
 
     public static void addAll(double[] values, double[] maxValues) {
@@ -25,6 +58,14 @@ public class Characteristic {
             weight[i] += values[i];
             max[i] += maxValues[i];
         }
+    }
+
+    public static void addMale(double value) {
+        maleWeight += value;
+    }
+
+    public static void addFemale(double value) {
+        femaleWeight += value;
     }
 
     public static void append(StringBuilder newXml) {

@@ -11,6 +11,13 @@
     <string name="send">SEND</string>
     <string name="feedback_title">HELP PROJECT</string>
     <string name="feedback_text">Select items from the list of statistics which you seemed correct and click send.</string>
+    <string name="gender">YOUR GENDER</string>
+    <string name="age">AGE</string>
+    <string name="male">M</string>
+    <string name="female">F</string>
+    <string name="continue_text">CONTINUE</string>
+    <string name="prev">&lt;</string>
+    <string name="next">&gt;</string>
 
     <!-- Types of people -->
     <string-array name="types">
