@@ -23,7 +23,6 @@ import com.airwhip.cryptastyle.misc.Names;
 import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
 
-
 public class WelcomeActivity extends Activity {
 
     private static Names names;

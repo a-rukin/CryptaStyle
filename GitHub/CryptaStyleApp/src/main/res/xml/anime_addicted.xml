@@ -60,8 +60,31 @@
             <item>anime</item>
             <item>наруто</item>
             <item>naruto</item>
+            <item>манга</item>
+            <item>manga</item>
         </weight-array>
     </history>
 
-    <music></music>
+    <music>
+        <weight-array id="80">
+            <item>zoku sayonara</item>
+            <item>flcl</item>
+            <item>bakemonogatari</item>
+            <item>kara no kyoukai</item>
+            <item>kaiji</item>
+            <item>tengen toppa gurren lagann</item>
+            <item>sayonara zetsubou sensei</item>
+            <item>kanon</item>
+            <item>maria holic</item>
+            <item>sayonara zetsubou sensei</item>
+            <item>full metal alchemist</item>
+            <item>ef a tale of memories</item>
+            <item>naruto</item>
+            <item>kotoko</item>
+            <item>coorie</item>
+            <item>chieco kawabe</item>
+            <item>yuki</item>
+            <item>round table</item>
+        </weight-array>
+    </music>
 </plist>

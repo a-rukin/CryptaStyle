@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.airwhip.cryptastyle.misc.Constants;
 import com.airwhip.cryptastyle.misc.CustomizeArrayAdapter;
-import com.airwhip.cryptastyle.misc.XmlHelper;
 import com.airwhip.cryptastyle.parser.Characteristic;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class ResultActivity extends Activity {
 
         List<String> types = new ArrayList<>();
         List<Integer> progress = new ArrayList<>();
-        for (int i = 0; i < Characteristic.size() - (XmlHelper.isContainsPikabu(Characteristic.getXml()) ? 0 : 1); i++) {
+        for (int i = 0; i < Characteristic.size() - (Characteristic.get(Constants.xmls.length - 1) > 0 ? 0 : 1); i++) {
             types.add(getResources().getStringArray(R.array.types)[i]);
             progress.add(Characteristic.get(i));
         }

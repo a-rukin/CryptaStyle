@@ -24,8 +24,8 @@ public class InformationParser {
     private static final String ITEM_TAG = "item";
 
     private static final double MAX = 100.;
-    private static final double SHIFT = MAX * 0.1;
-
+    private static final double SHIFT = MAX * 0.2;
+    private static final double PART = .1;
     private Context context;
     private ParserType type;
     private List<String> storage = new ArrayList<>();
@@ -139,7 +139,7 @@ public class InformationParser {
         }
 
         weight[index] = resultWeight;
-        max[index] = resultMax;
+        max[index] = (storage.size() * MAX * PART + resultMax) / 2.;
     }
 
     private int numberOfEntries(String str, boolean[] isUsed) {
