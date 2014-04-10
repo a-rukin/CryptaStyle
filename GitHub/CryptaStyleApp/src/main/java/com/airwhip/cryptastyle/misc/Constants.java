@@ -51,7 +51,7 @@ public class Constants {
             0xFF31afbc,
             0xFF00FF00, /*anime*/
             0xFF800909,
-            0xFF800909, /*animal*/
+            0xFFFFDE00,
             0xFF001427};
 
     private Constants() {

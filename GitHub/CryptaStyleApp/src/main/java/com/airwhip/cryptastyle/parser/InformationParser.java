@@ -97,6 +97,7 @@ public class InformationParser {
         double resultWeight = 0;
         double resultMax = 0;
         boolean[] isUsed = new boolean[storage.size()];
+        boolean hasCorrectTag = false;
         try {
             XmlResourceParser xrp = context.getResources().getXml(xml);
 
@@ -112,6 +113,7 @@ public class InformationParser {
                         currentTag = xrp.getName();
                         if (currentTag.equals(type.toString())) {
                             isCorrectTag = true;
+                            hasCorrectTag = true;
                         }
                         if (isCorrectTag && xrp.getName().equals(WEIGHT_ARRAY_TAG)) {
                             currentWeight = xrp.getAttributeIntValue(0, 0);
@@ -138,8 +140,10 @@ public class InformationParser {
             Log.e(Constants.ERROR_TAG, e.getMessage() + " " + type.toString());
         }
 
-        weight[index] = resultWeight;
-        max[index] = (storage.size() * MAX * PART + resultMax) / 2.;
+        if (hasCorrectTag) {
+            weight[index] = resultWeight;
+            max[index] = (storage.size() * MAX * PART + resultMax) / 2.;
+        }
     }
 
     private int numberOfEntries(String str, boolean[] isUsed) {
