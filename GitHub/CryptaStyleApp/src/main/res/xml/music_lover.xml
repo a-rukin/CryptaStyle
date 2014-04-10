@@ -26,6 +26,8 @@
         <weight-array id="100">
             <item>ost</item>
             <item>ост</item>
+            <item>саундтрек</item>
+            <item>soundtrack</item>
         </weight-array>
         <weight-array id="80">
             <item>zaycev.net</item>
@@ -43,7 +45,5 @@
         </weight-array>
     </history>
 
-    <music>
-        <!--empty-->
-    </music>
+    <music></music>
 </plist>

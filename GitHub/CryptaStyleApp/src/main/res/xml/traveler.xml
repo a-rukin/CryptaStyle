@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
-    <account>
-        <weight-array id="100">
-        </weight-array>
-    </account>
+    <account></account>
 
     <application>
         <weight-array id="100">
+            <item>com.booking</item>
+            <item>hotels</item>
+        </weight-array>
+        <weight-array id="50">
+            <item>maps</item>
+            <item>roads</item>
         </weight-array>
     </application>
 
     <history>
         <weight-array id="100">
+            <item>booking</item>
+            <item>travel</item>
+            <item>tickets</item>
+            <item>заказ</item>
+            <item>билет</item>
+            <item>путешестви</item>
+        </weight-array>
+        <weight-array id="70">
+            <item>самолет</item>
+            <item>plane</item>
+            <item>plane</item>
+            <item>hotels</item>
+            <item>отели</item>
+            <item>map</item>
+            <item>карт</item>
+            <item>outside</item>
+            <item>activity</item>
+            <item>entertainment</item>
+            <item>развлечения</item>
+            <item>mountains</item>
+            <item>countryside</item>
         </weight-array>
     </history>
 
-    <bookmarks>
-        <weight-array id="100">
-        </weight-array>
-    </bookmarks>
-
     <music>
-        <!--empty-->
+        <item>country</item>
+        <item>marley</item>
     </music>
 </plist>
