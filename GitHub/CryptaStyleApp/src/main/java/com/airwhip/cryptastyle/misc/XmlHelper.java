@@ -10,6 +10,9 @@ public class XmlHelper {
     }
 
     public static String removeXmlBadSymbols(String str) {
+        if (str == null) {
+            return "";
+        }
         return str.replaceAll(ERROR_SYMBOLS, " ");
     }
 }
