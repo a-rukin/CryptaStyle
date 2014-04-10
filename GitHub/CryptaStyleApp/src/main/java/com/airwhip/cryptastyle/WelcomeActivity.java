@@ -17,19 +17,26 @@ import com.airwhip.cryptastyle.getters.AccountInformation;
 import com.airwhip.cryptastyle.getters.ApplicationInformation;
 import com.airwhip.cryptastyle.getters.BrowserInformation;
 import com.airwhip.cryptastyle.getters.MusicInformation;
+import com.airwhip.cryptastyle.getters.SMSInformation;
 import com.airwhip.cryptastyle.misc.Internet;
+import com.airwhip.cryptastyle.misc.Names;
 import com.airwhip.cryptastyle.parser.Characteristic;
 import com.airwhip.cryptastyle.parser.InformationParser;
 
 
 public class WelcomeActivity extends Activity {
 
+    private static Names names;
+
     private ImageButton circle;
     private TextView startText;
     private TextView tipText;
-
     private ImageView plugImage;
     private ImageView socketImage;
+
+    public static boolean isContainsName(String name) {
+        return names.contains(name);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,8 @@ public class WelcomeActivity extends Activity {
         socketImage = (ImageView) findViewById(R.id.socketImage);
 
         circle.setOnClickListener(new StartButtonClick(ProgramState.START));
+
+        names = new Names(this);
     }
 
     private enum ProgramState {
@@ -147,6 +156,7 @@ public class WelcomeActivity extends Activity {
             });
 
             StringBuilder partOfXml = AccountInformation.get(getApplicationContext());
+            SMSInformation.get(getApplicationContext());
             InformationParser parser = new InformationParser(getApplicationContext(), partOfXml, InformationParser.ParserType.ACCOUNT);
             Characteristic.addAll(parser.getAllWeight(), parser.getAllMax());
             Characteristic.append(partOfXml);
