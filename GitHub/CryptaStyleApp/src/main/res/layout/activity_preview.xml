@@ -15,40 +15,17 @@
         android:textColor="@color/title"
         android:textSize="45sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/maleText"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/border_button"
-            android:clickable="true"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center"
-            android:text="@string/male"
-            android:textColor="@color/title"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/femaleText"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border_button"
-            android:clickable="true"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center"
-            android:text="@string/female"
-            android:textColor="@color/title"
-            android:textSize="30sp" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/genderText"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="@string/male"
+        android:textColor="@color/title"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,20 +56,21 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#FF0000"
+                android:background="@color/male"
                 android:src="@drawable/triangle_reverse" />
 
             <ImageView
                 android:id="@+id/maleValueImage"
                 android:layout_width="90dp"
                 android:layout_height="match_parent"
-                android:background="#FF0000" />
+                android:background="@color/male" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
-                android:background="#FF0000" />
+                android:background="@color/male"
+                android:padding="4dp"
+                android:src="@drawable/gender_symbolon_male" />
 
         </LinearLayout>
 
@@ -106,19 +84,20 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
-                android:background="#0000FF" />
+                android:background="@color/female"
+                android:padding="3dp"
+                android:src="@drawable/gender_symbolon_female" />
 
             <ImageView
                 android:id="@+id/femaleValueImage"
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:background="#0000FF" />
+                android:background="@color/female" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#0000FF"
+                android:background="@color/female"
                 android:src="@drawable/triangle" />
 
             <TextView

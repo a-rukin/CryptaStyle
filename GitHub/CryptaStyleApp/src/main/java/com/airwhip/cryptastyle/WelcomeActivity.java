@@ -186,7 +186,7 @@ public class WelcomeActivity extends Activity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            final int progress = values[0];
+            int progress = values[0];
             startText.setText(String.valueOf(progress) + "%");
         }
     }

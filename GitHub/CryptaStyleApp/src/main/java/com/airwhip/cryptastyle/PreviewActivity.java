@@ -12,8 +12,7 @@ import com.airwhip.cryptastyle.parser.Characteristic;
 
 public class PreviewActivity extends Activity {
 
-    TextView maleText;
-    TextView femaleText;
+    TextView genderText;
 
     TextView maleValueText;
     TextView femaleValueText;
@@ -30,8 +29,7 @@ public class PreviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
 
-        maleText = (TextView) findViewById(R.id.maleText);
-        femaleText = (TextView) findViewById(R.id.femaleText);
+        genderText = (TextView) findViewById(R.id.genderText);
 
         maleValueText = (TextView) findViewById(R.id.maleValueText);
         femaleValueText = (TextView) findViewById(R.id.femaleValueText);
@@ -44,9 +42,9 @@ public class PreviewActivity extends Activity {
         continueButton = (TextView) findViewById(R.id.continueButton);
 
         if (Characteristic.isMale()) {
-            femaleText.setAlpha(.3f);
+            genderText.setText(getString(R.string.male));
         } else {
-            maleText.setAlpha(.3f);
+            genderText.setText(getString(R.string.female));
         }
 
         maleValueText.setText(Characteristic.getMale() + "%");

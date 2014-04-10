@@ -12,8 +12,8 @@
     <string name="feedback_text">Выберите пункты из списка статистики, которые вам показались правильными и нажмите кнопку отправить.</string>
     <string name="gender">ВАШ ПОЛ</string>
     <string name="age">ВОЗРАСТ</string>
-    <string name="male">М</string>
-    <string name="female">Ж</string>
+    <string name="male">МУЖСКОЙ</string>
+    <string name="female">ЖЕНСКИЙ</string>
     <string name="continue_text">ПРОДОЛЖИТЬ</string>
 
     <!--Types of people-->
