@@ -12,8 +12,4 @@ public class XmlHelper {
     public static String removeXmlBadSymbols(String str) {
         return str.replaceAll(ERROR_SYMBOLS, " ");
     }
-
-    public static boolean isContainsPikabu(StringBuilder xml) {
-        return xml.indexOf("pikabu.ru") != -1;
-    }
 }
