@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
-<account>
-    <weight-array id="100">
-        <item>github</item>
-    </weight-array>
-    <weight-array id="20">
-        <item>google</item>
-    </weight-array>
-</account>
+    <account>
+        <weight-array id="100">
+            <item>github</item>
+        </weight-array>
+        <weight-array id="50">
+            <item>twitter</item>
+        </weight-array>
+        <weight-array id="20">
+            <item>google</item>
+        </weight-array>
+    </account>
 
-<application>
-    <weight-array id="100">
-    </weight-array>
-</application>
+    <application>
+        <weight-array id="100">
+            <item>github.mobile</item>
+        </weight-array>
+        <weight-array id="80">
+            <item>twitter</item>
+        </weight-array>
+    </application>
 
-<history>
-    <weight-array id="100">
-        <item>stackoverflow</item>
-    </weight-array>
-    <weight-array id="20">
-        <item>github</item>
-    </weight-array>
-</history>
+    <history>
+        <weight-array id="100">
+            <item>stackoverflow</item>
+        </weight-array>
+        <weight-array id="50">
+            <item>github</item>
+        </weight-array>
+    </history>
 
-<bookmarks>
-    <weight-array id="100">
-    </weight-array>
-</bookmarks>
-
-<music>
-    <!--empty-->
-</music>
+    <music>
+        <!--empty-->
+    </music>
 </plist>
