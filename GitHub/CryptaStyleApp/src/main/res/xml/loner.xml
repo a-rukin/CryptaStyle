@@ -6,12 +6,33 @@
     </account>
 
     <application>
-        <weight-array id="100">
+        <weight-array id="80">
+            <item>com.ikea</item>
+            <item>com.ebay</item>
         </weight-array>
     </application>
 
     <history>
         <weight-array id="100">
+            <item>porn</item>
+            <item>порн</item>
+            <item>beer</item>
+            <item>пиво</item>
+        </weight-array>
+        <weight-array id="60">
+            <item>смотреть онлайн</item>
+            <item>watch online</item>
+        </weight-array>
+        <weight-array id="50">
+            <item>икеа</item>
+            <item>ikea</item>
+            <item>купить</item>
+            <item>buy</item>
+        </weight-array>
+        <weight-array id="30">
+            <item>amazon</item>
+            <item>mail.ru</item>
+            <item>ozon</item>
         </weight-array>
     </history>
 
@@ -21,6 +42,7 @@
     </bookmarks>
 
     <music>
-        <!--empty-->
+        <item>круг</item>
+        <item>бутырка</item>
     </music>
 </plist>
