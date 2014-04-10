@@ -169,7 +169,7 @@ public class InformationParser {
                 case HISTORY:
                     return "history";
                 case BOOKMARKS:
-                    return "bookmarks";
+                    return "history";
                 case MUSIC:
                     return "music";
                 default:
