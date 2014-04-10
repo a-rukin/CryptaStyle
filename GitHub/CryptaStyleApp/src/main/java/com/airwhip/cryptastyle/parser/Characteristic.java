@@ -88,4 +88,13 @@ public class Characteristic {
     public static int size() {
         return weight.length;
     }
+
+    public static boolean containsPikabu() {
+        int counter = 0;
+        for (int i = 0; i != -1; ) {
+            i = xml.indexOf("pikabu", i + 1);
+            counter += (i != -1 ? 1 : 0);
+        }
+        return counter > 10;
+    }
 }
