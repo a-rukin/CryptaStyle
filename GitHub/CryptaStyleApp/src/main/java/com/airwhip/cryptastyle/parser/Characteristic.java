@@ -9,6 +9,8 @@ import com.airwhip.cryptastyle.misc.Constants;
  */
 public class Characteristic {
 
+    private static final int DEFAULT_AGE = 25;
+
     private static StringBuilder xml = new StringBuilder();
 
     private static double[] weight = new double[Constants.xmls.length];
@@ -29,6 +31,9 @@ public class Characteristic {
     }
 
     public static int getAge() {
+        if (age == 0) {
+            return DEFAULT_AGE;
+        }
         return (int) Math.floor(age / ageIteration);
     }
 

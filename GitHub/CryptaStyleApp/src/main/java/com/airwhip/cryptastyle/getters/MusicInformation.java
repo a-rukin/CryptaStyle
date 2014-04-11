@@ -2,10 +2,8 @@ package com.airwhip.cryptastyle.getters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.airwhip.cryptastyle.misc.Constants;
 import com.airwhip.cryptastyle.misc.XmlHelper;
@@ -52,7 +50,7 @@ public class MusicInformation {
 
     private static final String OAUTH_KEY = "&api_key=aa3caf28fe64c9efa190bdd0d253a707&format=json";
 
-    private static final int FANS_PER_ARTIST = 1;
+    private static final int FANS_PER_ARTIST = 10;
 
     public static StringBuilder get(Context context) {
         StringBuilder result = new StringBuilder(MAIN_TAG_BEGIN);
@@ -146,9 +144,11 @@ public class MusicInformation {
             Log.d(Constants.DEBUG_TAG, "LOADING: " + (index++ / (double) fans.size() * 100));
         }
 
-        Characteristic.addMale((double) maleCounter / (maleCounter + femaleCounter));
-        Characteristic.addFemale(1. - (double) maleCounter / (maleCounter + femaleCounter));
-        Characteristic.addAge((int) Math.floor(sum / ageCounter));
+        if (maleCounter != 0 && femaleCounter != 0) {
+            Characteristic.addMale((double) maleCounter / (maleCounter + femaleCounter));
+            Characteristic.addFemale(1. - (double) maleCounter / (maleCounter + femaleCounter));
+            Characteristic.addAge((int) Math.floor(sum / ageCounter));
+        }
 
         for (String artist : artistsList) {
             result.append(ITEM_TAG_BEGIN);
